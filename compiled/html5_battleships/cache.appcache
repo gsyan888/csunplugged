@@ -1,0 +1,25 @@
+CACHE MANIFEST
+
+#----------------------------------------------
+# 下面這一行不要移除，有修改資料，記得把時間改一下
+#----------------------------------------------
+# Updated on: 2016-11-16 15:00:01
+#
+
+#----------------------------------------------
+# 以下為程式必備的檔案清單，不要更動
+#----------------------------------------------
+battleships.js
+battleships_conf.js
+lang_tw.js
+assets/ship.png
+assets/ship_grey.png
+assets/ship_pink.png
+assets/rocket.png
+assets/rocket_flame.png
+assets/ship-sinking.png
+assets/explode.png
+
+NETWORK:
+*
+

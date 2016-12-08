@@ -1,0 +1,25 @@
+CACHE MANIFEST
+
+#----------------------------------------------
+# 下面這一行不要移除，有修改資料，記得把時間改一下
+#----------------------------------------------
+# Updated on: 2016-12-03 00:00:03
+#
+
+#----------------------------------------------
+# 以下為程式必備的檔案清單，不要更動
+#----------------------------------------------
+network_protocols.js
+network_protocols_conf.js
+assets/arrow.png
+assets/internet.png
+assets/pig.png
+assets/router.png
+assets/server_left.png
+assets/server_right.png
+assets/tux_right.png
+assets/tux.png
+
+NETWORK:
+*
+
