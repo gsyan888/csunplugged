@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   sodipodi:docname="mystica-Rocket.svg"
+   inkscape:export-filename="C:\Documents and Settings\Dan\Skrivbord\Rocket.png"
+   viewBox="0 0 22.000001 73.000004"
+   sodipodi:version="0.32"
+   inkscape:export-xdpi="310"
+   version="1.0"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-ydpi="310"
+   inkscape:version="0.91 r13725"
+   width="22"
+   height="73">
+  <defs
+     id="defs4">
+    <filter
+       id="filter3616"
+       height="1.1178"
+       width="1.8659"
+       y="-0.058882002"
+       x="-0.43292999"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3618"
+         stdDeviation="3.143885"
+         inkscape:collect="always" />
+    </filter>
+    <filter
+       id="filter3620"
+       height="1.0622"
+       width="1.2979"
+       y="-0.031124"
+       x="-0.14895"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3622"
+         stdDeviation="3.143885"
+         inkscape:collect="always" />
+    </filter>
+    <filter
+       id="filter3624"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3626"
+         stdDeviation="3.143885"
+         inkscape:collect="always" />
+    </filter>
+    <filter
+       id="filter3628"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur3630"
+         stdDeviation="3.143885"
+         inkscape:collect="always" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     guidetolerance="10"
+     pagecolor="#ffffff"
+     gridtolerance="10000"
+     inkscape:window-height="782"
+     inkscape:zoom="2"
+     objecttolerance="10"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="-97.166667"
+     inkscape:cy="63.346774"
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:window-width="1440"
+     inkscape:pageopacity="0.0"
+     inkscape:document-units="px"
+     inkscape:window-maximized="1" />
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     transform="translate(-184.43,-997.74096)">
+    <g
+       id="g4201"
+       transform="translate(-10.985108,11.757241)">
+      <path
+         transform="matrix(0.15434398,0,0,0.15434398,156.67868,887.70852)"
+         id="path3560"
+         sodipodi:nodetypes="cscsc"
+         style="fill:#e90404;fill-rule:evenodd;stroke:#747474;stroke-width:1px;filter:url(#filter3628)"
+         d="m 280,675.93 c 0,0 -15.71,55 -17.14,94.29 -1.43,39.29 57.14,299.98 57.14,299.98 0,0 61.43,-272.12 61.43,-307.12 0,-35 -24.29,-87.86 -24.29,-87.86"
+         inkscape:connector-curvature="0" />
+      <path
+         transform="matrix(0.15434398,0,0,0.15434398,156.67868,887.70852)"
+         id="path3562"
+         style="fill:#e96804;fill-rule:evenodd;stroke:#747474;stroke-width:1px;filter:url(#filter3624)"
+         d="m 290.71,676.65 c 0,0 -9.28,72.14 -9.28,88.57 0,16.43 37.86,223.57 37.86,223.57 0,0 45.71,-207.86 45.71,-225.71 0,-17.86 -17.86,-87.15 -17.86,-87.15"
+         inkscape:connector-curvature="0" />
+      <path
+         transform="matrix(0.15434398,0,0,0.15434398,156.67868,887.70852)"
+         id="path3564"
+         style="fill:#e9b204;fill-rule:evenodd;stroke:#747474;stroke-width:1px;filter:url(#filter3620)"
+         d="m 309.29,675.93 c 0,0 -11.43,72.86 -9.29,87.15 2.14,14.28 19.29,154.28 19.29,154.28 0,0 32.14,-145 30,-156.43 -2.15,-11.42 -16.43,-84.28 -16.43,-84.28"
+         inkscape:connector-curvature="0" />
+      <path
+         transform="matrix(0.15434398,0,0,0.15434398,156.67868,887.70852)"
+         id="path3566"
+         style="fill:#e9e204;fill-rule:evenodd;stroke:#747474;stroke-width:1px;filter:url(#filter3616)"
+         d="m 317.86,676.65 c 0,0 -3.57,74.28 -3.57,77.86 0,3.57 5.71,48.57 5.71,48.57 0,0 10.71,-40.72 10.71,-45.72 0,-5 -7.14,-81.43 -7.14,-81.43"
+         inkscape:connector-curvature="0" />
+    </g>
+  </g>
+  <metadata
+     id="metadata50">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Rocket</dc:title>
+        <dc:date>2008-03-29T22:49:16</dc:date>
+        <dc:description>A rocket... enjoy!   :-)</dc:description>
+        <dc:source>https://openclipart.org/detail/16043/rocket-by-mystica-16043</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>mystica</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>rocket</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

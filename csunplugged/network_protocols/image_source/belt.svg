@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg3787"
+   sodipodi:docname="belt.svg"
+   viewBox="0 0 100 59.999999"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   width="100"
+   height="60">
+  <defs
+     id="defs3791">
+    <linearGradient
+       id="linearGradient3264">
+      <stop
+         id="stop3266"
+         style="stop-color:#c9c9c9"
+         offset="0" />
+      <stop
+         id="stop3276"
+         style="stop-color:#f8f8f8"
+         offset=".25" />
+      <stop
+         id="stop3272"
+         style="stop-color:#e2e2e2"
+         offset=".5" />
+      <stop
+         id="stop3274"
+         style="stop-color:#b0b0b0"
+         offset=".75" />
+      <stop
+         id="stop3268"
+         style="stop-color:#c9c9c9"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3264"
+       id="linearGradient4149"
+       gradientUnits="userSpaceOnUse"
+       x1="414.23999"
+       y1="517.84003"
+       x2="536.57001"
+       y2="572.76001" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview3789"
+     fit-margin-left="0"
+     inkscape:zoom="1.4292203"
+     borderopacity="1"
+     inkscape:current-layer="svg3787"
+     inkscape:cx="-55.763393"
+     inkscape:cy="70.993763"
+     inkscape:window-maximized="1"
+     showgrid="false"
+     fit-margin-right="0"
+     bordercolor="#666666"
+     inkscape:window-x="-4"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:window-y="-4"
+     fit-margin-bottom="0"
+     inkscape:window-width="1024"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     pagecolor="#ffffff"
+     gridtolerance="10"
+     inkscape:window-height="742"
+     fit-margin-top="0" />
+  <g
+     id="g3007"
+     transform="matrix(0.76922985,0,0,0.74650163,-315.59962,-376.14731)"
+     inkscape:export-filename="E:\limejs\csunplugged\network_protocols\assets\belt.png"
+     inkscape:export-xdpi="69.230766"
+     inkscape:export-ydpi="69.230766">
+    <path
+       id="path3009"
+       d="m 494.78,504.38 c -2.77,0 -5,2.23 -5,5 l 0,5.375 0,4.9688 c 0,2.77 -2.23,5 -5,5 l -19,0 c -2.77,0 -5,-2.23 -5,-5 l 0,-4.9688 0,-5.0312 c 0,-2.77 -2.23,-5 -5,-5 l -9,0 c -2.77,0 -5,2.23 -5,5 l 0,5.0312 -21,0 c -5.54,0 -10,4.46 -10,10 l 0,39 c 0,5.54 4.46,10 10,10 l 21,0 0,-4.9688 c 0,-2.77 2.23,-5 5,-5 l 9,0 c 2.77,0 5,2.23 5,5 l 0,4.9688 0,5 c 0,2.77 2.23,5 5,5 l 19,0 c 2.77,0 5,-2.23 5,-5 l 0,-5 0,-4.9688 c 0,-2.77 2.23,-5 5,-5 l 9,0 c 2.77,0 5,2.23 5,5 l 0,4.9688 21,0 c 5.54,0 10,-4.46 10,-10 l 0,-39 c 0,-5.54 -4.46,-10 -10,-10 l -21,0 0,-5.375 c 0,-2.77 -2.23,-5 -5,-5 l -9,0 z"
+       style="fill:url(#linearGradient4149);stroke:#555753"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path3011"
+       style="fill:none;stroke:#eeeeec"
+       sodipodi:type="inkscape:offset"
+       d="m 494.78125,505.38086 c -2.23064,0 -3.99414,1.76347 -3.99414,3.99414 l 0,5.375 0,4.96875 c 0,3.30937 -2.69649,6.00586 -6.00586,6.00586 l -19,0 c -3.30937,0 -6.00586,-2.69649 -6.00586,-6.00586 l 0,-4.96875 0,-5.03125 c 0,-2.23063 -1.76351,-3.99414 -3.99414,-3.99414 l -9,0 c -2.23063,0 -3.99414,1.76351 -3.99414,3.99414 l 0,5.03125 a 1.0050615,1.0050615 0 0 1 -1.00586,1.00586 l -21,0 c -5.00063,0 -8.99414,3.99351 -8.99414,8.99414 l 0,39 c 0,5.00063 3.99351,8.99414 8.99414,8.99414 l 19.99414,0 0,-3.96289 c 0,-3.30937 2.69649,-6.00586 6.00586,-6.00586 l 9,0 c 3.30937,0 6.00586,2.69649 6.00586,6.00586 l 0,4.96875 0,5 c 0,2.23067 1.7635,3.99414 3.99414,3.99414 l 19,0 c 2.23064,0 3.99414,-1.76347 3.99414,-3.99414 l 0,-5 0,-4.96875 c 0,-3.30939 2.6965,-6.00586 6.00586,-6.00586 l 9,0 c 3.30936,0 6.00586,2.69647 6.00586,6.00586 l 0,3.96289 19.99414,0 c 5.00063,0 8.99414,-3.99351 8.99414,-8.99414 l 0,-39 c 0,-5.00063 -3.99351,-8.99414 -8.99414,-8.99414 l -21,0 A 1.0050615,1.0050615 0 0 1 507.77539,514.75 l 0,-5.375 c 0,-2.23067 -1.7635,-3.99414 -3.99414,-3.99414 l -9,0 z"
+       inkscape:original="M 494.78125 504.375 C 492.01125 504.375 489.78125 506.60497 489.78125 509.375 L 489.78125 514.75 L 489.78125 519.71875 C 489.78125 522.48875 487.55125 524.71875 484.78125 524.71875 L 465.78125 524.71875 C 463.01125 524.71875 460.78125 522.48875 460.78125 519.71875 L 460.78125 514.75 L 460.78125 509.71875 C 460.78125 506.94875 458.55125 504.71875 455.78125 504.71875 L 446.78125 504.71875 C 444.01125 504.71875 441.78125 506.94875 441.78125 509.71875 L 441.78125 514.75 L 420.78125 514.75 C 415.24125 514.75 410.78125 519.21 410.78125 524.75 L 410.78125 563.75 C 410.78125 569.29 415.24125 573.75 420.78125 573.75 L 441.78125 573.75 L 441.78125 568.78125 C 441.78125 566.01125 444.01125 563.78125 446.78125 563.78125 L 455.78125 563.78125 C 458.55125 563.78125 460.78125 566.01125 460.78125 568.78125 L 460.78125 573.75 L 460.78125 578.75 C 460.78125 581.52003 463.01125 583.75 465.78125 583.75 L 484.78125 583.75 C 487.55125 583.75 489.78125 581.52003 489.78125 578.75 L 489.78125 573.75 L 489.78125 568.78125 C 489.78125 566.01122 492.01125 563.78125 494.78125 563.78125 L 503.78125 563.78125 C 506.55125 563.78125 508.78125 566.01122 508.78125 568.78125 L 508.78125 573.75 L 529.78125 573.75 C 535.32125 573.75 539.78125 569.29 539.78125 563.75 L 539.78125 524.75 C 539.78125 519.21 535.32125 514.75 529.78125 514.75 L 508.78125 514.75 L 508.78125 509.375 C 508.78125 506.60497 506.55125 504.375 503.78125 504.375 L 494.78125 504.375 z "
+       inkscape:radius="-1.004961" />
+  </g>
+  <metadata
+     id="metadata21">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Conveyor Belt</dc:title>
+        <dc:date>2012-11-14T09:44:09</dc:date>
+        <dc:description>I needed a graphic for a conveyor belt and put this together.  The image I have uploaded has 3 links back to back.  For longer belt just duplicate a link and move it to the end.</dc:description>
+        <dc:source>https://openclipart.org/detail/173139/conveyor-belt-by-deusinvictus-173139</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>deusinvictus</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>Conveyor</rdf:li>
+            <rdf:li>belt</rdf:li>
+            <rdf:li>chain</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

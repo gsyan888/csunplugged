@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://creativecommons.org/ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    id="svg2"
+    sodipodi:docname="sniper.svg"
+    viewBox="0 0 634.41 628.41"
+    sodipodi:version="0.32"
+    version="1.0"
+    inkscape:output_extension="org.inkscape.output.svg.inkscape"
+    inkscape:version="0.46"
+  >
+  <sodipodi:namedview
+      id="base"
+      bordercolor="#666666"
+      inkscape:pageshadow="2"
+      guidetolerance="10"
+      pagecolor="#ffffff"
+      gridtolerance="10000"
+      inkscape:window-height="744"
+      inkscape:zoom="0.6837375"
+      objecttolerance="10"
+      inkscape:window-y="-4"
+      showgrid="false"
+      borderopacity="1.0"
+      inkscape:current-layer="layer1"
+      inkscape:cx="326.36209"
+      inkscape:cy="252.93446"
+      showguides="true"
+      inkscape:guide-bbox="true"
+      inkscape:window-x="-4"
+      inkscape:window-width="1280"
+      inkscape:pageopacity="0.0"
+      inkscape:document-units="px"
+  />
+  <g
+      id="layer1"
+      inkscape:label="Layer 1"
+      inkscape:groupmode="layer"
+      transform="translate(-44.567 -292.34)"
+    >
+    <path
+        id="path3206"
+        style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:7;fill:none"
+        d="m657.79 635.62h17.68-17.68zm8.84-1.47v-55.16 55.16zm-106.56-27.44h105.65-105.65zm97.72-28.9h17.68-17.68z"
+    />
+    <path
+        id="path3204"
+        style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:7;fill:none"
+        d="m65.754 635.62h-17.687 17.687zm-8.844-1.47v-55.16 55.16zm106.56-27.44h-105.65 105.65zm-97.716-28.9h-17.687 17.687z"
+    />
+    <path
+        id="path3187"
+        style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:7;fill:none"
+        d="m333.16 313.52v-17.68 17.68zm1.47-8.84h55.16-55.16zm27.44 106.56v-105.65 105.65zm28.9-97.72v-17.68 17.68z"
+    />
+    <path
+        id="path3202"
+        style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:7;fill:none"
+        d="m333.16 899.56v17.68-17.68zm1.47 8.84h55.16-55.16zm27.44-106.56v105.65-105.65zm28.9 97.72v17.68-17.68z"
+    />
+    <path
+        id="path2401"
+        sodipodi:rx="203"
+        sodipodi:ry="203"
+        style="stroke-opacity:.70588;fill-opacity:.81395;stroke:#000000;stroke-width:7;fill:#006f00"
+        sodipodi:type="arc"
+        d="m610 531.36a203 203 0 1 1 -406 0 203 203 0 1 1 406 0z"
+        transform="matrix(.96852 0 0 .96852 -32.122 92.077)"
+        sodipodi:cy="531.36218"
+        sodipodi:cx="407"
+    />
+    <path
+        id="path2407"
+        sodipodi:rx="203"
+        sodipodi:ry="203"
+        style="stroke-opacity:.28488;stroke:#000000;stroke-width:7;fill:none"
+        sodipodi:type="arc"
+        d="m610 531.36a203 203 0 1 1 -406 0 203 203 0 1 1 406 0z"
+        transform="matrix(.62551 0 0 .62551 107.48 274.34)"
+        sodipodi:cy="531.36218"
+        sodipodi:cx="407"
+    />
+    <path
+        id="path3179"
+        sodipodi:rx="203"
+        sodipodi:ry="203"
+        style="stroke-opacity:.28488;stroke:#000000;stroke-width:7;fill:none"
+        sodipodi:type="arc"
+        d="m610 531.36a203 203 0 1 1 -406 0 203 203 0 1 1 406 0z"
+        transform="matrix(.27241 0 0 .27241 251.2 461.97)"
+        sodipodi:cy="531.36218"
+        sodipodi:cx="407"
+    />
+    <path
+        id="path3181"
+        style="stroke:#000000;stroke-width:1px;fill:none"
+        d="m167.81 606.71h388.52"
+    />
+    <path
+        id="path3183"
+        style="stroke:#000000;stroke-width:1px;fill:none"
+        d="m362.07 801.86v-390.3"
+    />
+    <rect
+        id="rect3185"
+        style="fill:#ac0000"
+        ry="0"
+        height="10.491"
+        width="10.491"
+        y="601.47"
+        x="356.82"
+    />
+  </g
+  >
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+        <dc:title
+          >Sniper target</dc:title
+        >
+        <dc:date
+          >2009-11-19T13:08:42</dc:date
+        >
+        <dc:description
+        />
+        <dc:source
+          >https://openclipart.org/detail/28412/sniper-target-by-charlok_16</dc:source
+        >
+        <dc:creator
+          >
+          <cc:Agent
+            >
+            <dc:title
+              >ChArLoK_16</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:creator
+        >
+        <dc:subject
+          >
+          <rdf:Bag
+            >
+            <rdf:li
+              >line art</rdf:li
+            >
+            <rdf:li
+              >sniper</rdf:li
+            >
+            <rdf:li
+              >symbol</rdf:li
+            >
+            <rdf:li
+              >target</rdf:li
+            >
+            <rdf:li
+              >tool</rdf:li
+            >
+            <rdf:li
+              >unchecked</rdf:li
+            >
+          </rdf:Bag
+          >
+        </dc:subject
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>

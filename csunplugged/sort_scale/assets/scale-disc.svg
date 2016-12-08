@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg5507"
+   sodipodi:docname="scale-disc.svg"
+   viewBox="0 0 383.42 187.7"
+   version="1.1"
+   inkscape:version="0.91 r13725">
+  <defs
+     id="defs3424" />
+  <title
+     id="title4744">Balance</title>
+  <sodipodi:namedview
+     id="base"
+     fit-margin-left="0"
+     inkscape:zoom="1.0614888"
+     borderopacity="1.0"
+     inkscape:current-layer="layer1"
+     inkscape:cx="201.70821"
+     inkscape:cy="95.152972"
+     inkscape:window-maximized="0"
+     showgrid="false"
+     fit-margin-right="0"
+     inkscape:guide-bbox="true"
+     showguides="true"
+     bordercolor="#666666"
+     inkscape:window-x="36"
+     inkscape:window-y="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1172"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     pagecolor="#ffffff"
+     inkscape:document-units="px"
+     inkscape:window-height="756"
+     fit-margin-top="0" />
+  <g
+     id="layer1"
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     transform="translate(-157.7 -468.35)">
+    <path
+       id="path5727"
+       sodipodi:nodetypes="ccccccc"
+       style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;fill:#ffffff"
+       inkscape:connector-curvature="0"
+       d="m214.8 534.76v28.977c0.19209 2.3623 1.2904 4.8176 4.7012 4.2943l33.638-0.2974c2.6428-0.01 3.9831-1.3223 3.9613-3.9969l0.0906-28.977z" />
+    <path
+       id="path4158"
+       sodipodi:nodetypes="ccccc"
+       style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;fill:#ffffff"
+       inkscape:connector-curvature="0"
+       d="m231.82 568.07 0.47104 22.373h9.9922l-0.47104-22.373z" />
+    <path
+       id="path4730"
+       d="m216.01 536.03v5.603h39.37l0.11579-5.3362z"
+       sodipodi:nodetypes="ccccc"
+       style="stroke-linejoin:round;stroke:#cccccc;stroke-linecap:round;fill:#cccccc"
+       inkscape:connector-curvature="0" />
+    <path
+       id="path4738"
+       sodipodi:nodetypes="ccccccc"
+       style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;stroke-width:2;fill:#ffffff"
+       inkscape:connector-curvature="0"
+       d="m158.77 506.91 0.14674 11.075 12.396 16.028 122.58 0.0808 14.027-15.926 0.37231-11.325z" />
+    <path
+       id="path4740"
+       sodipodi:nodetypes="cc"
+       style="stroke-linejoin:round;stroke:#000000;stroke-linecap:round;fill:#ffffff"
+       inkscape:connector-curvature="0"
+       d="m158.2 518.21 148.85-0.00001" />
+  </g>
+  <metadata
+     id="metadata3422">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title>Balance</dc:title>
+        <dc:date>2011-03-23T01:38:11</dc:date>
+        <dc:description>A line_art of a scale</dc:description>
+        <dc:source>https://openclipart.org/detail/128839/balance--scale-by-lmproulx</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>lmproulx</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>balance</rdf:li>
+            <rdf:li>graphic organizer</rdf:li>
+            <rdf:li>line art</rdf:li>
+            <rdf:li>scale</rdf:li>
+            <rdf:li>weight</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>
