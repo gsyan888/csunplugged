@@ -1,5 +1,6 @@
 @echo off
 set PageName=index.html
+set URL=https://github.com/gsyan888/csunplugged
 REM get current folder name to set the LimeJS Folder 
 for %%* in (.) do set CurrDirName=%%~nx*
 set limejsDir=.
@@ -29,6 +30,8 @@ for /d %%D in (%limejsDir%\csunplugged\*) DO  (
 		@echo ^<p^>^<a href^="compiled/html5_%%~nxD/%%~nxD.html"^>^<img src^="compiled/html5_%%~nxD/assets/icon.png"^>%%~nxD^</a^>^</p^> >>%webPage%
 	)	
 )
+@echo ^<hr size^=1 /^> >>%webPage%
+@echo ^<p^>Source:  ^<a href^="%URL%"^>%URL%^</a^> ^</p^> >>%webPage%
 @echo ^</body^> >>%webPage%
 @echo ^</html^> >>%webPage%
 
