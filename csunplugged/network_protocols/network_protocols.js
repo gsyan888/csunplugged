@@ -353,7 +353,7 @@ cs.network_protocols.setCardText = function() {
 								.setFill(game.Util.getRandomColor(4))
 								.setPosition(x, y)
 		cards[i].label.setText('?');
-		cards[i].number.setText(i+1);
+		cards[i].number.setText(i+1).setHidden(0);
 		contentLayer.appendChild(cards[i]);
 		goog.events.listen(cards[i],['mousedown','touchstart'],function(e){
 			if( dialog.getHidden() == 1) {
@@ -1126,6 +1126,9 @@ cs.network_protocols.makeCard = function() {
 	card.appendChild(card.label);
 	card.appendChild(card.action);
 	card.appendChild(card.number);
+	if(typeof(cfg_showCardNumber) == 'undefined' || cfg_showCardNumber != true) {	//2017.03.27 add by gsyan
+		card.number.setHidden(1);
+	}
 	return card;
 }
 	

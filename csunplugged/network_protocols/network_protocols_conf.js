@@ -28,6 +28,8 @@ cfg_actionColor = new Array('#ff0000', '#ffff00', '#009900');
 //enable sound effect
 cfg_soundEffectEnable = true;
 
+//Show the number of cards anytime.
+cfg_showCardNumber = false;
 
 //*************************************************
 // Sound Effect file & endcoded by base64
