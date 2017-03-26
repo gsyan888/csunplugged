@@ -434,6 +434,8 @@ cs.battleships.makeShoot = function(shipNumber, shipId) {
 			return;
 		}
 		
+		cs.battleships.enabled = false;	//2017.03.27 add by gsyan 
+		
 		//temprature hide the still rocket,
 		//find ship number and show shooted animation
 		sprite.rocket.setHidden(1);	
