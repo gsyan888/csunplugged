@@ -240,7 +240,9 @@ cs.text_compression.getPattern = function() {
 		}
 		i++;
 	}
+	//檢查選取的字數是否相同
 	errorFound = selectedTotal < cs.text_compression.seletedTotal;
+		
 	//將選取的字暫存
 	if(!errorFound) {
 		var n = cs.text_compression.patterns.length;
@@ -824,9 +826,24 @@ cs.text_compression.helpDialog = function() {
 	for(var i=0; i<cs.text_compression.patterns.length; i++) {
 		var pattern = cs.text_compression.patterns[i];
 		var patternLen = pattern.pattern.length;
+		//pattern 的第 0 個是 "保留目標"
+		//			第 1 個以後的才是 "壓縮標的"
 		for(var j=1; j<pattern.pos.length; j++) {
-			if(pattern.pos[j][1]-pattern.pos[j][0]+1 == patternLen) {
-				compressionTotal += patternLen;
+			var firstPos = pattern.pos[j][0];
+			var lastPos = pattern.pos[j][1];
+			//先檢查字串長度
+			//if(pattern.pos[j][1]-pattern.pos[j][0]+1 == patternLen) {
+			if(lastPos-firstPos+1 == patternLen) {
+				//再檢查字串內容是否為 "保留目標"
+				var str = '';
+				for(var c=firstPos; c<=lastPos; c++) {
+					str += textLines.ch[c].text;
+				}
+				var isTargetSelectedOk =  (cfg_caseSensitive && str == pattern.pattern) ||  (!cfg_caseSensitive && str.toUpperCase() == pattern.pattern.toUpperCase());
+				//完全符合的就累計總字數
+				if( isTargetSelectedOk ) {					
+					compressionTotal += patternLen;
+				}
 			}
 		}
 	}	
