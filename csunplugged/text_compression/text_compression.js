@@ -39,11 +39,13 @@ cs.text_compression.start = function(){
 	textLines = new lime.Layer();
 	compressionLayer = new lime.Layer();
 	topLayer = new lime.Layer();
+	messageLayer = new lime.Layer();
 	
 	scene.appendChild(backgroundLayer);
 	scene.appendChild(textLines);
 	scene.appendChild(compressionLayer);
 	scene.appendChild(topLayer);
+	scene.appendChild(messageLayer);
 	
 	director.makeMobileWebAppCapable();
 	director.setDisplayFPS(false);	//關掉左上角的 FPS 資訊
@@ -56,7 +58,11 @@ cs.text_compression.start = function(){
 	cs.text_compression.init();
 }
 
+//
+//Initialize , load configuration file & show menu
+//
 cs.text_compression.init = function() {
+	//load config file
 	cs.text_compression.loadSettingFromExternalScript(cs.text_compression.config_file, function() {
 		if( typeof(menuItemAndTextLines) == 'undefined' ) {
 			alert('Loaded config file failure : ' + cs.text_compression.config_file );
@@ -68,7 +74,9 @@ cs.text_compression.init = function() {
 	});
 
 }
-
+//
+//create button at top
+//
 cs.text_compression.makeButtons = function() {
 	var width = 250;
 	var height = 50;
@@ -119,7 +127,9 @@ cs.text_compression.makeButtons = function() {
 	backgroundLayer.appendChild(finishButton)
 	
 }
-
+//
+//
+//
 cs.text_compression.newGame = function() {
 	cs.text_compression.clearAll();
 	
@@ -130,6 +140,7 @@ cs.text_compression.newGame = function() {
 	
 	textString = cs.text_compression.currentTextLines.replace(/\r/g, '');
 	
+	//make labels for every charactors
 	textLines.ch = new Array();
 	var fontSize = cfg_textFontSize;
 	//如果全英數的話, 字距縮小;中文則維持原始大小
@@ -143,7 +154,7 @@ cs.text_compression.newGame = function() {
 	var y = 0;	
 	for(var i=0; i<textString.length; i++) {
 		ch = textString.substring(i,i+1);
-		if(ch == "\n") {
+		if(ch == "\n") {	//skip enter
 			col = 0;
 			x = xStart;
 			if(i>0) {
@@ -163,6 +174,7 @@ cs.text_compression.newGame = function() {
 			textLines.appendChild(textLines.ch[total]);
 			textLines.ch[total].text = ch;
 			textLines.ch[total].selected = false;
+			textLines.ch[total].used = false;
 			textLines.ch[total].index = total;
 			
 			goog.events.listen(textLines.ch[total], ['mousedown','touchstart'], function() {
@@ -217,6 +229,15 @@ cs.text_compression.finishAction = function() {
 		cs.text_compression.helpDialog();
 	}
 }
+//
+//set the used flag of characters to prevent duplicatly selected
+//
+cs.text_compression.setCharacterUsed = function(firstPos, lastPos) {
+	for(var i=firstPos; i<=lastPos; i++) {
+		textLines.ch[i].used = true;
+	}	
+}	
+
 cs.text_compression.getPattern = function() {
 	var i = 0;
 	var firstPos = -1;
@@ -250,8 +271,8 @@ cs.text_compression.getPattern = function() {
 		cs.text_compression.patterns[n].pattern = str;
 		cs.text_compression.patterns[n].pos = new Array();
 		cs.text_compression.patterns[n].pos[0] = [firstPos, lastPos];
-		
 		patternLabel.setText(str);
+		cs.text_compression.setCharacterUsed(firstPos, lastPos);
 	} else {
 		for(var i=firstPos; i<=lastPos; i++) {
 			textLines.ch[i].selected = true;
@@ -300,6 +321,7 @@ cs.text_compression.getTarget = function() {
 		if(!errorFound) {
 			var p = cs.text_compression.patterns[n].pos.length;
 			cs.text_compression.patterns[n].pos[p] = posGot[i];
+			cs.text_compression.setCharacterUsed(posGot[i][0], posGot[i][1]);
 		} else {
 			for(var j=posGot[i][0]; j<=posGot[i][1]; j++) {
 				textLines.ch[j].selected = true;
@@ -413,9 +435,11 @@ cs.text_compression.setButtonAction = function(sprite) {
 				cs.text_compression.seletedTotal = 0;
 				cs.text_compression.current_color = this.getColor();
 				cs.text_compression.clickedLabelIndex = -1;
+				//select the text as compression target
 				cs.text_compression.selectText();
 				break;
 			case cfg_messageButtonPatternOk : //'保留完成'
+				//save the selected compression target text
 				if(cs.text_compression.seletedTotal > 1) {
 					cs.text_compression.clearTopLayer();
 					if( cs.text_compression.getPattern() ) {	//save result
@@ -424,10 +448,12 @@ cs.text_compression.setButtonAction = function(sprite) {
 						cs.text_compression.checkButtonStatus();
 						cs.text_compression.process_stage = 0;
 					} else {
-						cs.text_compression.showMessage(cfg_messagePatternSelectErr2, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+						//cs.text_compression.showMessage(cfg_messagePatternSelectErr2, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+						cs.text_compression.showMessage(cfg_messagePatternSelectErr2, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
 					}
 				} else {
-					cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+					//cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+					cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
 				}
 				break;
 			case cfg_messageButtonTargetSelect : //'選取壓縮標的'
@@ -439,6 +465,7 @@ cs.text_compression.setButtonAction = function(sprite) {
 				cs.text_compression.seletedTotal = 0;
 				cs.text_compression.current_color = this.getColor();
 				cs.text_compression.clickedLabelIndex = -1;
+				
 				cs.text_compression.selectText();
 				break;
 			case cfg_messageButtonTargetOk : //'標記完成'
@@ -450,10 +477,12 @@ cs.text_compression.setButtonAction = function(sprite) {
 						cs.text_compression.checkButtonStatus();
 						cs.text_compression.process_stage = 0;
 					} else {
-						cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+						//cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+						cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
 					}
 				} else {
-					cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+					//cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle', cs.text_compression.selectText);
+					cs.text_compression.showMessage(cfg_messagePatternSelectErr1, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
 				}
 				break;
 			case cfg_messageButtonCompressStart :	//'開始壓縮'
@@ -476,6 +505,7 @@ cs.text_compression.setButtonAction = function(sprite) {
 }
 cs.text_compression.clearAll = function() {
 	try {
+		messageLayer.removeAllChildren();
 		topLayer.removeAllChildren();
 		compressionLayer.removeAllChildren();
 		backgroundLayer.removeAllChildren();
@@ -505,6 +535,9 @@ cs.text_compression.clearTopLayer = function() {
 		topLayer.removeAllChildren();
 	} catch(e) {	};
 }
+//
+//use moving or mousedown(touch) event to mark text 
+//
 cs.text_compression.selectText = function() {
 	var sprite = new lime.Sprite().setSize(cs.text_compression.Width, 570)
 									.setFill(cs.text_compression.current_color)
@@ -540,15 +573,19 @@ cs.text_compression.selectText = function() {
 				pos.pos = label.getPosition();
 				pos.screenPosition = label.getParent().localToScreen(pos.pos);
 				if( selectedArea.hitTest(pos) ) {
-					if( cs.text_compression.process_stage == 1 || cs.text_compression.process_stage == 2 ) {
-						if(!label.selected) {
-							cs.text_compression.seletedTotal++;
-							label.setFill(cs.text_compression.current_color);
-						} else {
-							cs.text_compression.seletedTotal--;
-							label.setFill('#ffffff');
+					if( !label.used ) {
+						if( cs.text_compression.process_stage == 1 || cs.text_compression.process_stage == 2 ) {
+							if(!label.selected) {
+								cs.text_compression.seletedTotal++;
+								label.setFill(cs.text_compression.current_color);
+							} else {
+								cs.text_compression.seletedTotal--;
+								label.setFill('#ffffff');
+							}
+							label.selected = !label.selected;
 						}
-						label.selected = !label.selected;
+					} else {
+						cs.text_compression.showMessage(cfg_messageDuplicatelySelectionErr, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
 					}
 					hitTotal++;
 				}
@@ -557,14 +594,18 @@ cs.text_compression.selectText = function() {
 			//如果未用拖曳的,檢查是否有 click 某個
 			if(hitTotal == 0 && cs.text_compression.clickedLabelIndex >= 0) {
 				label = textLines.ch[cs.text_compression.clickedLabelIndex];
-				if(!label.selected) {
-					cs.text_compression.seletedTotal++;
-					label.setFill(cs.text_compression.current_color);
+				if( !label.used ) {
+					if(!label.selected) {
+						cs.text_compression.seletedTotal++;
+						label.setFill(cs.text_compression.current_color);
+					} else {
+						cs.text_compression.seletedTotal--;
+						label.setFill('#ffffff');
+					}
+					label.selected = !label.selected;
 				} else {
-					cs.text_compression.seletedTotal--;
-					label.setFill('#ffffff');
-				}
-				label.selected = !label.selected;				
+					cs.text_compression.showMessage(cfg_messageDuplicatelySelectionErr, 46,"#ff0000", cfg_messageDelayPatternSelectErr , 'middle');
+				}				
 			}
 			cs.text_compression.clickedLabelIndex = -1;
 		});
@@ -781,11 +822,11 @@ cs.text_compression.createMenu = function(menu, callback) {
 
 //show message
 cs.text_compression.showMessage = function(txt, fontSize, color, delay, vAlign, callback) {
-	for(var i=0; i<topLayer.getNumberOfChildren(); i++) {
-		var child = topLayer.getChildAt(i);
+	for(var i=0; i<messageLayer.getNumberOfChildren(); i++) {
+		var child = messageLayer.getChildAt(i);
 		try {
 			lime.animation.actionManager.stopAll(child);
-			topLayer.removeChild(child);
+			messageLayer.removeChild(child);
 		} catch(e) {	};
 	}
 	
@@ -804,14 +845,14 @@ cs.text_compression.showMessage = function(txt, fontSize, color, delay, vAlign, 
 							.setFontColor(color)
 							.setPosition(0,(70-fontSize)/2);
 	bg.appendChild(label);
-	topLayer.appendChild(bg);
+	messageLayer.appendChild(bg);
 	var ani = new lime.animation.FadeTo(0.5).setDuration(delay);
 	bg.runAction( ani );
 	goog.events.listen(ani, lime.animation.Event.STOP, function() {
 		try {
 			this.getParent().removeChild(this);
 		} catch(e) { };
-		if(typeof callback == 'function') {
+		if(typeof(callback) != 'undefined' && typeof(callback) == 'function') {
 			callback();
 		}
 	}, false, bg);
