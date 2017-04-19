@@ -69,3 +69,6 @@ cfg_messageDelayResult = 3000;
 cfg_messagePatternSelectErr1 = '至少要選取 2 個字元';
 cfg_messagePatternSelectErr2 = '標的必須連續選取，請勿跨字';
 cfg_messageDelayPatternSelectErr = 2;
+
+//2017.04.19 新增的錯誤訊息
+cfg_messageDuplicatelySelectionErr = '無法選取已使用中的字';
