@@ -440,9 +440,9 @@ cs.text_compression.setButtonAction = function(sprite) {
 				break;
 			case cfg_messageButtonPatternOk : //'保留完成'
 				//save the selected compression target text
-				if(cs.text_compression.seletedTotal > 1) {
-					cs.text_compression.clearTopLayer();
+				if(cs.text_compression.seletedTotal > 1) {					
 					if( cs.text_compression.getPattern() ) {	//save result
+						cs.text_compression.clearTopLayer();
 						this.setText(cfg_messageButtonPatternSelect);
 						buttonPattern.setOpacity(.2);	
 						cs.text_compression.checkButtonStatus();
