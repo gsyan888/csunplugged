@@ -1,0 +1,33 @@
+CACHE MANIFEST
+
+#----------------------------------------------
+# 下面這一行不要移除，有修改資料，記得把時間改一下
+#----------------------------------------------
+# Updated on: 2017-04-24 00:00:00
+#
+
+#----------------------------------------------
+# 以下為程式必備的檔案清單，不要更動
+#----------------------------------------------
+mastermind.js
+mastermind_conf.js
+assets/feedback_black.png
+assets/feedback_white.png
+assets/icon_gear.png
+assets/icon_restart.png
+assets/peg_01.png
+assets/peg_02.png
+assets/peg_03.png
+assets/peg_04.png
+assets/peg_05.png
+assets/peg_06.png
+assets/peg_07.png
+assets/peg_blank.png
+assets/pengiun_button.png
+assets/press_button.png
+assets/selection.png
+
+
+NETWORK:
+*
+
