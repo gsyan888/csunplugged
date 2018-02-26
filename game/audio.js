@@ -12,14 +12,23 @@ goog.require('lime.userAgent');
 game.Audio = function(MP3_File, MP3_Base64, OGG_Base64) {
     goog.events.EventTarget.call(this);
 	
+	if(typeof(MP3_Base64) == 'undefined') {
+		MP3_Base64 = '';
+	}
+	if(typeof(OGG_Base64) == 'undefined') {
+		OGG_Base64 = '';
+	}
+	
+	var filePath = '';
 	if(goog.global['AudioContext'] || goog.global['webkitAudioContext']) {
 		if(goog.userAgent.GECKO) {
-			var filePath = OGG_Base64;
+			filePath = OGG_Base64;
 		} else {
-			var filePath = MP3_Base64
+			filePath = MP3_Base64
 		}
-	} else {
-		var filePath = MP3_File;
+	}
+	if( filePath == '') {
+		filePath = MP3_File;
 	}	
 	
     if(filePath && goog.isFunction(filePath.data)){
@@ -49,7 +58,7 @@ game.Audio = function(MP3_File, MP3_Base64, OGG_Base64) {
     if (goog.userAgent.GECKO && (/\.mp3$/).test(filePath)) {
         filePath = filePath.replace(/\.mp3$/, '.ogg');
     }
-
+	
     if (game.AudioContext && !this.crossSite_) {
         this.volume_ = 1;
         this.prepareContext_();
@@ -93,8 +102,11 @@ game.Audio.prototype.loadBuffer = function (path, cb) {
     else if (buffers[path]) {
         buffers[path].push(cb);
     }
-    else if ( path.length % 4 == 0 && path.match(/^[A-Za-z0-9+\/=]+\Z/) ) {	
+    else if (path.match(/data:audio\/(ogg|mp3);base64,/) || path.length % 4 == 0 && path.match(/^[A-Za-z0-9+\/=]+\Z/) ) {	
     	//如果傳來的資料符合 base64 的特徵，就進行資料解碼的程序
+		if( path.match(/data:audio\/(ogg|mp3);base64,/) ) {
+			path = path.replace(/data:audio\/(ogg|mp3);base64,/, '');
+		}
     	buffers[path] = [cb];
     	var myBuffer = this.decodeArrayBuffer(path);
     	game.context['decodeAudioData'](myBuffer, function(buffer) {

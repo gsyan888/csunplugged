@@ -3,12 +3,16 @@ goog.provide('game.Fraction');
 goog.require('lime.Sprite');
 goog.require('lime.Label');
 
+/**
+ * @constructor
+ */
 game.Fraction = function(callback) {
 	lime.Sprite.call(this);
 	
 	this.defaultFontSize = 60;
 	this.fontsize = this.defaultFontSize;
 	this.fontcolor = '#000000';
+	this.width = 0;
 	
 };
 goog.inherits(game.Fraction, lime.Sprite);
@@ -33,7 +37,6 @@ game.Fraction.prototype.setFontFamily = function(value) {
 	this.font = value;
 	return this;
 };
-
 /**
  * 玻ネだ计
  *		把计:
@@ -151,13 +154,14 @@ game.Fraction.prototype.setText = function(strIn) {
 			//this.appendChild(s);
 			label.setPosition(x, 0);
 			this.appendChild(label);
-			x += wA/2+fontsize/5;
+			x += wA/2+this.fontsize/5;
 			//var s = new lime.Sprite().setSize(3,60).setFill('#00ffff').setPosition(x,0);
 			//this.appendChild(s);
 		}
 	}
 	
 	this.xOffset = -x/2;
+	this.width = x;
 	return this;	
 };
 //耞琌だ计ボΑ

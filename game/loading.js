@@ -9,6 +9,9 @@ goog.require('lime.scheduleManager');
 	this.color:顏色代碼
 	type: circle=圓圈動畫 , 其它則為直線動畫
 */
+/**
+ * @constructor
+ */
 game.LoadingIcon = function() {
 	lime.CanvasContext.call(this);
 	//this.size = 60;

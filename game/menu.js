@@ -5,6 +5,12 @@ goog.require('lime.Label');
 goog.require('lime.ui.Scroller');
 goog.require('game.Button');
 
+/**
+ * Show a scroller menu
+ * @param {string array},{function} menu items caption string array, callball the function call back.
+ * @constructor
+ * @extends lime.RoundedRect
+ */
 game.ScrollerMenu = function(items, callback) {
 	lime.RoundedRect.call(this);
 	

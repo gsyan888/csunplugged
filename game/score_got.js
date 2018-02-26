@@ -6,6 +6,13 @@ goog.require('lime.animation.MoveBy');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.Spawn');
 
+/**
+ * A Label to show fade out message
+ * @param {object} parent to append
+ * @param {function} callball the function call back.
+ * @constructor
+ * @extends lime.Label
+ */
 game.effect.ShowScoreGot = function(sprite, callback) {
 	lime.Label.call(this);
 	this.sprite = sprite;

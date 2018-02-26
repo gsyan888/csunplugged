@@ -5,11 +5,10 @@ goog.require('lime.Label');
 goog.require('game.Button');
 
 /**
- * Circle button. Circle button with some predefined style.
- * Use lime.Button for lower level control.
- * @param {string} txt Text shown on the button.
+ * Dialog. RoundedRect with caption , message & button .
+ * @param {object} {function} {function}
  * @constructor
- * @extends lime.Button
+ * @extends lime.RoundedRect
  */
 game.Dialog = function(conf, callback, callback2) {
     lime.RoundedRect.call(this);
@@ -120,7 +119,7 @@ game.Dialog.prototype.makeDialog = function(callback, callback2) {
 							.setFill(rgb[0], rgb[1], rgb[2], conf.alpha).setStroke(conf.strokeSize, conf.strokeColor)
 							.setOpacity(1);
 	this.caption = new lime.Label().setSize(512,115).setFontSize(76).setPosition(0,-173)
-							.setText(conf.caption).setFontColor(conf.captioneColor).setFontFamily(conf.font);
+							.setText(conf.caption).setFontColor(conf.captionColor).setFontFamily(conf.font);
 	this.appendChild(this.caption);
 	this.description = new lime.Label().setSize(640,conf.fontSize).setFontSize(conf.fontSize).setPosition(0,-90)
 							.setText(conf.description).setFontColor(conf.fontColor).setFontFamily(conf.font);
@@ -167,14 +166,16 @@ game.Dialog.prototype.makeDialog = function(callback, callback2) {
  * @protected
  * @param {game.Button} object.
  */
-game.Dialog.prototype.setButtonFontSize = function(b) {
+game.Dialog.prototype.setButtonFontSize = function(b, size) {
 	var s = b.getSize();
 	if( s.width > 0 ) {
-		var sizeMax = Math.floor(s.height*0.9);
-		var scale = (s.width-b.borderWidth)*.95/b.upstate.label.getSize().width;
-		var size = Math.floor(b.upstate.label.getFontSize() * scale);
-		if( size > sizeMax ) {
-			size = sizeMax;
+		if(typeof(size) == 'undefined') {
+			var sizeMax = Math.floor(s.height*0.9);
+			var scale = (s.width-b.borderWidth)*.95/b.upstate.label.getSize().width;
+			size = Math.floor(b.upstate.label.getFontSize() * scale);
+			if( size > sizeMax ) {
+				size = sizeMax;
+			}
 		}
 		b.upstate.label.setFontSize(size);
 		b.downstate.label.setFontSize(size);

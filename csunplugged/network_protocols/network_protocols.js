@@ -1051,6 +1051,9 @@ cs.network_protocols.doDeliver = function(card) {
 cs.network_protocols.gameOver = function() {
 	cs.network_protocols.showMessage(cfg_messageAllDataSent, 3);
 	
+	//hide senderCards: 2017.04.07 add by gsyan
+	senderCards.setHidden(1);
+	
 	//rearrange cards in receiverCards
 	var total = receiverCards.moving_.getNumberOfChildren();
 	if( total > cs.network_protocols.cardTotal && cs.network_protocols.cardTotal < 10 ) {

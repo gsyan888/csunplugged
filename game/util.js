@@ -234,3 +234,62 @@ game.Util.isImage = function(str) {
 	}
 	return false;
 }
+
+//判斷字串是否為 .mp3 路徑
+game.Util.isMP3 = function(str) {
+	if(str.toLowerCase().lastIndexOf(".mp3") < 0) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+//判斷是否為分數的表示式
+game.Util.isFraction = function(str) {
+	try {
+		var f = str.match(/\[\d+:\d+:\d+\]|\[\d+:\d+\]/);
+	} catch(e) { var f = null; }
+	if( typeof f == 'object' && f != null ) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+//-------------------------------------------------
+//判斷字串的型態
+//-------------------------------------------------
+game.Util.typeOfWord = function( word ) {
+	var phString = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦˊˇˋ˙";
+	var i=0;
+	var phCount = 0;
+	for(i=0; i < word.length; i++) {
+		if ( phString.indexOf(word.substr(i,1)) > -1 ) {
+			phCount++;
+		}
+	}
+	if (phCount == word.length) {
+		return "注音";		//純注音
+	} else {
+		if (phCount == 0) {
+			return "國字";		//純國字
+		} else {
+			return "混合";		//混合
+		}
+	}
+};
+//--------------------------------------------------
+//倒轉字(注音在前國字在後者先轉換順序)
+//--------------------------------------------------
+game.Util.WordFirst = function( chracter ) {
+	var phString = "ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐㄑㄒㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦˊˇˋ˙";
+	if ( chracter.length > 1 ) {
+		var wFirst = chracter.substr(0,1);	//取出第一個字
+		var wLast =  chracter.substr(-1,1);	//取出最後一個字
+		//第一個字為注音而且最後一個字為國字
+		if( phString.indexOf( wFirst ) > -1 && phString.indexOf( wLast) == -1 ) {
+			chracter = wLast + chracter.substr(0,chracter.length-1);
+		}
+	}
+	return chracter;
+};

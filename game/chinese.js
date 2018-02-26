@@ -4,6 +4,9 @@ goog.require('lime.Sprite');
 goog.require('lime.Label');
 goog.require('lime.userAgent');
 
+/**
+ * @constructor
+ */
 game.Chinese = function(callback) {
     lime.Sprite.call(this);
 	this.defaultFontSize = 32;

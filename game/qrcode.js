@@ -22,7 +22,11 @@ goog.require('game.Qrcode.jqueryQrcode');
 goog.require('lime.Sprite');
 goog.require('lime.CanvasContext');
 
-
+/**
+ * Qrcode Object
+ * @constructor
+ * @param {string} text to generate QR Code
+ */
 game.Qrcode = function(txt) {
 	lime.Sprite.call(this);
 	
@@ -76,12 +80,17 @@ game.Qrcode.prototype.setLevel = function(value) {
 	}
 	return this;
 };
-	
+game.Qrcode.prototype.clear = function() {
+	if(typeof(this.qr) != 'undefined') {
+		this.qr.clear();
+	}
+	return this;
+};
 game.Qrcode.prototype.makeCode = function() {
 	var size = this.getSize();
 	//this.qrcodeCanvas.setSize(size.width, size.height);
 	//console.log(this.qrcodeCanvas.getDeepestDomElement().getContext('2d').canvas);
-	var qr = new QRCode(this.getDeepestDomElement(), {
+	this.qr = new QRCode(this.getDeepestDomElement(), {
 		text: this.txt,
 		width: size.width,
 		height: size.height,
@@ -135,6 +144,6 @@ game.Qrcode.prototype.makeCode = function() {
 		
 	};
 	*/
-	qr.makeCode(this.txt);
+	this.qr.makeCode(this.txt);
 	return this;
 };
