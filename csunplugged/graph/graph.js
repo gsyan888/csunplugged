@@ -8,6 +8,8 @@ goog.provide('cs.graph');
 // Modified :
 //	2018.02.25 first release
 //	2018.02.26 JSON fomat export & import 
+//	2018.02.27 canvas text wordwrap (export to PNG),
+//			   add new options: cfg_nodeObjectDefaultColor, cfg_lineDefaultColor 
 //======================================================
 
 //get requirements
@@ -39,6 +41,9 @@ cs.graph.Height = 748; //576; //768;
 
 cs.graph.config_file = 'graph_conf.js';
 
+cs.graph.nodeObjectDefaultColor = '#00CC00'; //節點新增時預設的顏色
+cs.graph.lineDefaultColor = '#000000';		//連接線新增時預設的顏色
+
 cs.graph.defaultNodeObjectSize = 100;	//節點的預設大小
 cs.graph.defaultLineSize = 10;	//連線的預設粗細
 cs.graph.defaultLongpressTime = 500; //預設按下多久為長按
@@ -46,7 +51,7 @@ cs.graph.defaultLongpressTime = 500; //預設按下多久為長按
 cs.graph.colors = new Array(
 	  '#000000'
 	, '#FF0000'
-	, '#0c0'
+	, '#00CC00'
 	, '#0000FF'
 	, '#FFFF00'
 	, '#00FFFF'
@@ -78,7 +83,7 @@ cs.graph.exportPNGIcon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4
 //-------------------------------------------------
 // entrypoint
 //-------------------------------------------------
-cs.graph.start = function(){
+cs.graph.start = function(){	
 	//如果直拿就將寬高對調
 	if(window.innerWidth < window.innerHeight) {
 		//var w = cs.graph.Width;
@@ -88,8 +93,9 @@ cs.graph.start = function(){
 		cs.graph.Height = 1004;
 	}
 	
-	var director = new lime.Director(document.body, cs.graph.Width, cs.graph.Height),
-	    scene = new lime.Scene();
+	var director = new lime.Director(document.body, cs.graph.Width, cs.graph.Height);
+
+	var scene = new lime.Scene();
 
 	drawLayer = new lime.Layer();
 	objLayer = new lime.Layer();
@@ -125,6 +131,8 @@ cs.graph.init = function() {
 				|| typeof(cfg_nodeObjectSize) == 'undefined'
 				|| typeof(cfg_lineSize) == 'undefined'
 				|| typeof(cfg_longpressTime) == 'undefined'
+				|| typeof(cfg_nodeObjectDefaultColor) == 'undefined'
+				|| typeof(cfg_lineDefaultColor) == 'undefined'
 				|| typeof(cfg_locale_LANG)  == 'undefined' ) {
 			//alert('Failed to load the configuration file : '+cs.graph.config_file);
 			cs.graph.showMessage('Error', 'Configuration file load failure : '+cs.graph.config_file,9999).setPosition(cs.graph.Width/2, cs.graph.Height/2);
@@ -133,7 +141,8 @@ cs.graph.init = function() {
 		cs.graph.defaultNodeObjectSize = cfg_nodeObjectSize;	//節點的預設大小
 		cs.graph.defaultLineSize = cfg_lineSize;	//節點連接線的預設粗細
 		cs.graph.defaultLongpressTime = cfg_longpressTime; //預設按下多久為長按
-		
+		cs.graph.nodeObjectDefaultColor = cfg_nodeObjectDefaultColor; //節點新增時預設的顏色
+		cs.graph.lineDefaultColor = cfg_lineDefaultColor;		//連接線新增時預設的顏色
 		cs.graph.colors = cfg_colors; //顏色化碼清單
 		
 		var debug = parseInt(game.Util.gup('debug'));
@@ -158,6 +167,20 @@ cs.graph.init = function() {
 //
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
+	var labelCredit= new lime.Label().setText('v.1 ')
+									.setSize(50, 12)
+									.setAlign('right')
+									.setFontColor('#819FF7')
+									.setFontSize(8)
+									//.setStroke(1)
+									//.setPosition(0, 22)
+									//.setPosition(52, cs.graph.Height-9);
+									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
+	buttonLayer.appendChild(labelCredit);	
+	labelCredit.getDeepestDomElement().title = '2018.02.27 updated';	
+	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
+        goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
+    });
 	//------------------------------
 	//左側工具
 	//------------------------------
@@ -213,7 +236,7 @@ cs.graph.letsRockIt = function() {
 			}
 		}
 	});
-
+	
 	//匯出成 PNG 檔
 	//exportPNGIcon
 	exportPNGSprite = new lime.Sprite()
@@ -283,7 +306,7 @@ cs.graph.letsRockIt = function() {
 			cs.graph.closeDownloadMenu();
 			
 			//'匯出資料', '已將圖形匯出成 grph.json，下次載入後即可繼續編輯'
-			cs.graph.showMessage(cfg_messageExportJSONFormtCaption, cfg_messageExportJSONFormtDescription, 5);
+			cs.graph.showMessage(cfg_messageExportJSONFormtCaption, cfg_messageExportJSONFormtDescription);
 		}
 	});
 	
@@ -302,7 +325,7 @@ cs.graph.letsRockIt = function() {
 		if( loadSprite.getHidden() == 0 ) {
 			if( /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
 				//'系統訊息', '抱歉！Android / iOS 暫不支援匯入舊檔的功能'
-				cs.graph.showMessage(cfg_messageOsNotSupportedCaption, cfg_messageOsNotSupportedDescription, 5);
+				cs.graph.showMessage(cfg_messageOsNotSupportedCaption, cfg_messageOsNotSupportedDescription, 5);				
 			} else {		
 				/*
 				var inputFile = new game.Input()
@@ -314,10 +337,12 @@ cs.graph.letsRockIt = function() {
 				//inputFile.input.style=inputFile.input.style+";display:none;";
 				*/
 				//inputFile = goog.dom.createDom('input', {'type':'file', 'style':'display:none;'});
+				//inputFile = goog.dom.createDom('input', {'type':'file', 'accept':'image/*'});
 				inputFile = goog.dom.createDom('input', {'type':'file', 'accept':'.json', 'style':'display:none;'});
 				topLayer.appendChild(inputFile);
 				inputFile.click();
 				goog.events.listen(inputFile, ['change'] , function(evt) {
+					alert('test');
 					var files = evt.target.files; 
 					// FileList object
 					if( files.length > 0 ) {
@@ -492,6 +517,26 @@ cs.graph.exprotAllParts = function(ctx) {
 			var dy = 0;
 			for(var n = 0; n < txt.length; n++) {
 				var word = txt.substr(n,1);
+				//-------------------------------
+				//斷字處理
+				//檢查如果是英文數字, 
+				//就抓下一個字, 一直抓到非英數才停
+				//-------------------------------
+				var i = 1;
+				var nextOne = word;
+				while( (n+i-1) < txt.length && /^[a-z0-9]+$/i.test(nextOne) ) {
+					nextOne = txt.substr(n+i,1);					
+					if( /^[a-z0-9]+$/i.test(nextOne) ) {						
+						word +=  nextOne;
+						i++;
+					} else {
+						break;
+					}
+				}
+				n += (i-1);
+				//-------------------------------
+				//斷字處理結束
+				//-------------------------------
 				var testLine = line + word;
 				var metrics = ctx.measureText(testLine);
 				var testWidth = metrics.width;
@@ -734,14 +779,14 @@ cs.graph.getColorHexString = function(rgb) {
 cs.graph.createObject = function() {
 	var size = cs.graph.defaultNodeObjectSize;
 	var x = cs.graph.Width/2;
-	var y = cs.graph.Height/2;
+	var y = cs.graph.Height-size*1.5
     var obj = new lime.Circle().setSize(size, size)
     							.setStroke(1)
 								//.setFill(colorPicker.getStroke().getColor());
-								.setFill('#0c0')
+								.setFill(cs.graph.nodeObjectDefaultColor)
 								//.setPosition(cs.graph.Width-size*1.8, cs.graph.Height-size*1.8);
 								//.setPosition(size*1.8, cs.graph.Height-size*1.8);
-								.setPosition(cs.graph.Width/2, cs.graph.Height-size*1.5);
+								.setPosition(x, y);
 	obj.inner = new lime.Circle().setSize(size*0.85, size*0.85)
 						//.setFill('#ffff00')
 						.setStroke(2,'#ffffff')
@@ -750,7 +795,6 @@ cs.graph.createObject = function() {
 	obj.appendChild(obj.inner);
 								
     //如果中心點附近已有物件, 就稍微右移一點, 以免重疊在一起
-	/*
 	for(var i=0; i<objLayer.getNumberOfChildren(); i++) {
 		var another = objLayer.getChildAt(i).getPosition();
 		var dx = x-another.x;
@@ -758,11 +802,14 @@ cs.graph.createObject = function() {
 		if( Math.sqrt(dx*dx+dy*dy) <= size/2 ) {
 			x+= size*(Math.floor(Math.random()*20)/10)*(Math.random()>=0.5 ? 1 : -1);
 			y+= size*(Math.floor(Math.random()*15)/10)*(Math.random()>=0.5 ? 1 : -1);
+			if( y > cs.graph.Height-size*1.5 ) {
+				y = cs.graph.Height-size*1.5;
+			}
 			break;
 		}
 	}
 	obj.setPosition(x, y);
-	*/
+	
     objLayer.appendChild(obj);
 	
     
@@ -855,7 +902,7 @@ cs.graph.createObject = function() {
 					obj.connectLine = new lime.Polygon()
     										//.setAnchorPoint(0,0)
     										//.setFill(colorPicker.getStroke().getColor())
-											.setFill('#000000')
+											.setFill(cs.graph.lineDefaultColor)
 											//.setStroke(10, '#4AAADE')
 											//.setPosition(obj.getPosition());
 											;
@@ -986,9 +1033,6 @@ cs.graph.popupMenu = function(obj) {
 	cs.graph.clearAllChildren(topLayer);
 	cs.graph.clickEnabled = false;
 
-	var color = new Array('#000000','#FF0000','#0c0',
-							'#0000FF','#FFFF00','#00FFFF',
-							'#FF00FF','#C0C0C0','#ff8000');
 	var size = cs.graph.defaultNodeObjectSize/2+5;
 	var radius = cs.graph.defaultNodeObjectSize/2+size*1.2;
 	var btTotal = 10;

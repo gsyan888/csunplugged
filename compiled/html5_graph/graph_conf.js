@@ -14,7 +14,7 @@ cfg_locale_LANG = 'tw';
 cfg_colors = new Array(
 	  '#000000'
 	, '#FF0000'
-	, '#0c0'
+	, '#00CC00'
 	, '#0000FF'
 	, '#FFFF00'
 	, '#00FFFF'
@@ -22,6 +22,9 @@ cfg_colors = new Array(
 	, '#C0C0C0'
 	, '#ff8000'
 );
+
+cfg_nodeObjectDefaultColor = '#00CC00'; //節點新增時預設的顏色
+cfg_lineDefaultColor 	   = '#000000';	//連接線新增時預設的顏色
 
 cfg_nodeObjectSize = 100; 	//節點的預設大小
 cfg_lineSize = 10; 			//節點連接線的預設粗細
