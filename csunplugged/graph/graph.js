@@ -342,7 +342,6 @@ cs.graph.letsRockIt = function() {
 				topLayer.appendChild(inputFile);
 				inputFile.click();
 				goog.events.listen(inputFile, ['change'] , function(evt) {
-					alert('test');
 					var files = evt.target.files; 
 					// FileList object
 					if( files.length > 0 ) {
@@ -515,6 +514,7 @@ cs.graph.exprotAllParts = function(ctx) {
 			var lines = [];
 			var line = '';
 			var dy = 0;
+			console.log(txt);
 			for(var n = 0; n < txt.length; n++) {
 				var word = txt.substr(n,1);
 				//-------------------------------
@@ -522,18 +522,18 @@ cs.graph.exprotAllParts = function(ctx) {
 				//檢查如果是英文數字, 
 				//就抓下一個字, 一直抓到非英數才停
 				//-------------------------------
-				var i = 1;
+				var k = 1;
 				var nextOne = word;
-				while( (n+i-1) < txt.length && /^[a-z0-9]+$/i.test(nextOne) ) {
-					nextOne = txt.substr(n+i,1);					
+				while( (n+k-1) < txt.length && /^[a-z0-9]+$/i.test(nextOne) ) {
+					nextOne = txt.substr(n+k,1);					
 					if( /^[a-z0-9]+$/i.test(nextOne) ) {						
 						word +=  nextOne;
-						i++;
+						k++;
 					} else {
 						break;
 					}
 				}
-				n += (i-1);
+				n += (k-1);
 				//-------------------------------
 				//斷字處理結束
 				//-------------------------------
