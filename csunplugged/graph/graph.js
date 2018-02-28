@@ -5,11 +5,12 @@ goog.provide('cs.graph');
 // graph.js 2018.02.15
 // by TPET gsyan  https://gsyan888.blogspot.com/ 
 // 
-// Modified :
+// Change log :
 //	2018.02.25 first release
 //	2018.02.26 JSON fomat export & import 
 //	2018.02.27 canvas text wordwrap (export to PNG),
 //			   add new options: cfg_nodeObjectDefaultColor, cfg_lineDefaultColor 
+//	2018.02.28 Android/iOS import function
 //======================================================
 
 //get requirements
@@ -25,6 +26,8 @@ goog.require('lime.animation.Spawn');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
+
+goog.require('lime.Button');
 
 goog.require('game.Util');
 goog.require('game.Input');
@@ -167,7 +170,7 @@ cs.graph.init = function() {
 //
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1 ')
+	var labelCredit= new lime.Label().setText('v.1.2 ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -177,7 +180,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = '2018.02.27 updated';	
+	labelCredit.getDeepestDomElement().title = '2018.02.28 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -311,61 +314,53 @@ cs.graph.letsRockIt = function() {
 	});
 	
 	//load JSON File
-	loadSprite = new lime.Sprite()
+	loadIcon = new lime.Sprite()
 						.setFill(cs.graph.loadIcon)
 						.setSize(64,64)
 						.setStroke(2, '#2E64FE')
-						.setHidden(1)
+						//.setHidden(1)
 						//.setOpacity(alphaValueDisabled)
-						.setPosition(52+225, cs.graph.Height-64);
+						.setPosition(0, 0);
+    loadSprite = new lime.Button(loadIcon).setHidden(1)
+								.setPosition(52+225, cs.graph.Height-64);
+	loadSprite.appendChild(loadIcon);
 	buttonLayer.appendChild(loadSprite);
 	
 	//loadIcon button 的滑鼠事件
-	goog.events.listen(loadSprite,['mousedown','touchstart'],function(e){		
+	//goog.events.listen(loadButton,['mousedown','touchstart'],function(e){		
+	goog.events.listen(loadSprite,['click'],function(e){		
 		if( loadSprite.getHidden() == 0 ) {
-			if( /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+			//if( /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
 				//'系統訊息', '抱歉！Android / iOS 暫不支援匯入舊檔的功能'
-				cs.graph.showMessage(cfg_messageOsNotSupportedCaption, cfg_messageOsNotSupportedDescription, 5);				
-			} else {		
-				/*
-				var inputFile = new game.Input()
-										.setFontSize(40)
-										//.setSize(width, 80)
-										.setPosition(cs.graph.Width/2,cs.graph.Height/2);
-				inputFile.input.type = 'file';
-				//inputFile.input.size = 100;
-				//inputFile.input.style=inputFile.input.style+";display:none;";
-				*/
-				//inputFile = goog.dom.createDom('input', {'type':'file', 'style':'display:none;'});
-				//inputFile = goog.dom.createDom('input', {'type':'file', 'accept':'image/*'});
-				inputFile = goog.dom.createDom('input', {'type':'file', 'accept':'.json', 'style':'display:none;'});
-				topLayer.appendChild(inputFile);
-				inputFile.click();
-				goog.events.listen(inputFile, ['change'] , function(evt) {
-					var files = evt.target.files; 
-					// FileList object
-					if( files.length > 0 ) {
-						var file = files[0];
-						// Only process JSON files. text/json
-						if (file.name.match(/\.json/i)) {
-							var reader = new FileReader();
+				//cs.graph.showMessage(cfg_messageOsNotSupportedCaption, cfg_messageOsNotSupportedDescription, 5);				
+			//}
+			inputFile = goog.dom.createDom('input', {'type':'file', 'accept':'.json', 'style':'display:none;'});
+			topLayer.appendChild(inputFile);
+			inputFile.click();
+			goog.events.listen(inputFile, ['change'] , function(evt) {
+				var files = evt.target.files; 
+				// FileList object
+				if( files.length > 0 ) {
+					var file = files[0];
+					// Only process JSON files. text/json
+					if (file.name.match(/\.json/i)) {
+						var reader = new FileReader();
 
-							// Closure to capture the file information.
-							reader.onload = (function(theFile) {
-								return function(e) {
-									cs.graph.importFromJsonString(e.target.result);
-								};
-							})(file);
+						// Closure to capture the file information.
+						reader.onload = (function(theFile) {
+							return function(e) {
+								cs.graph.importFromJsonString(e.target.result);
+							};
+						})(file);
 
-							// Read JSON file as text
-							reader.readAsText(file);						
-						} else {
-							cs.graph.importFromJsonString();
-						}
+						// Read JSON file as text
+						reader.readAsText(file);						
+					} else {
+						cs.graph.importFromJsonString();
+					}
 
-					}				
-				});
-			}
+				}				
+			});
 			cs.graph.closeDownloadMenu();
 		}
 	});	
@@ -514,7 +509,7 @@ cs.graph.exprotAllParts = function(ctx) {
 			var lines = [];
 			var line = '';
 			var dy = 0;
-			console.log(txt);
+			//console.log(txt);
 			for(var n = 0; n < txt.length; n++) {
 				var word = txt.substr(n,1);
 				//-------------------------------
@@ -683,7 +678,14 @@ cs.graph.exportToJsonFormat = function() {
 	//var jsonString = window.btoa(  JSON.stringify(data) );
 	//UTF-16 to UTF-8 to Base64
 	var jsonString = game.Util.Data.base64_encode( game.Util.Data.utf16to8( JSON.stringify(data) ) );
-	return "data:text/json;charset=utf-8;base64," + jsonString;
+	if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+		var mimeType = 'application/octet-stream';
+	} else {
+		var mimeType = 'text/json';
+	}
+	//return "data:text/json;charset=utf-8;base64," + jsonString;
+	//return 'data:application/octet-stream;charset=utf-8;base64," + jsonString;
+	return 'data:'+mimeType+';charset=utf-8;base64,' + jsonString;
 }
 
 //-------------------------------------------------
@@ -1321,6 +1323,7 @@ cs.graph.getLabelText = function(obj) {
 			colorCursor.setPosition(this.getPosition());
 			colorCursor.setStroke(3, labelColor);
 			inputText.getInputText().style.color = labelColor;
+			inputText.input.focus();
 		},false,colorSprite);	
 		
 		if( labelColor != '' ) {
@@ -1346,7 +1349,7 @@ cs.graph.getLabelText = function(obj) {
 	if( ! ( typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite ) ) {
 		inputText.getInputText().style.backgroundColor = 'rgba('+obj.getFill().getRgba().toString()+')';
 	}
-	
+
 	//加入鍵盤監聽, 處理 Enter 鍵	
 	goog.events.listen(document, ['keyup'], inputKeyupHandler=function(e) {
 		if(e.keyCode == 13) {	
@@ -1374,6 +1377,7 @@ cs.graph.getLabelText = function(obj) {
 		if( typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite ) {
 			//
 		} else {
+			//如果是節點就設定 label 大小,方便計算有多少行
 			obj.label.setSize(labelsize, labelsize)
 		}
 		var txt = inputText.getInputText().value;
@@ -1397,9 +1401,12 @@ cs.graph.getLabelText = function(obj) {
 				break;
 			}
 		} while( newSize > 8);
-		lineTotal = Math.ceil( obj.label.measureText().width / ( labelsize * .8 ) );
+		//lineTotal = Math.ceil( obj.label.measureText().width / ( labelsize * .8 ) );
+		lineTotal = cs.graph.getLabelLinesNumber(obj.label);
+		//console.log(txt + ' : ' + lineTotal);
 		obj.label.lineTotal = lineTotal; //記錄下來備用
-		var textHeight = newSize * lineTotal * obj.label.getLineHeight();
+		//var textHeight = newSize * lineTotal * obj.label.getLineHeight();
+		var textHeight = (newSize+obj.label.getLineHeight())*lineTotal-obj.label.getLineHeight();
 		//如果是連線就調整水平置中，否則調整垂直置中
 		if( typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite ) {
 			obj.label.setPosition(obj.getSize().width/2, -5-obj.label.getFontSize()/2);
@@ -1410,6 +1417,73 @@ cs.graph.getLabelText = function(obj) {
 		cs.graph.clearAllChildren(topLayer);
 		cs.graph.enableClickTimer(100);
 	};
+	
+	//讓游標在輸入區
+	lime.scheduleManager.callAfter( function() {
+		inputText.input.focus();
+		//var len = inputText.input.value.length;
+		//inputText.input.setSelectionRange(len,len);
+	}, inputText, 100);
+			
+}
+//-------------------------------------------------
+//
+//-------------------------------------------------
+cs.graph.getLabelLinesNumber = function(label) {
+	var txt = label.getText();
+	var pos = label.getPosition();
+	var fontsize = label.getFontSize();	
+	// wrap the long text
+	var maxWidth = label.getSize().width;
+	var lineHeight = label.getLineHeight()+fontsize;
+	var lines = [];
+	var line = '';
+	var dy = 0;
+	//console.log(txt);
+	var tempLabel = new lime.Label().setFontSize(fontsize);
+	for(var n = 0; n < txt.length; n++) {
+		var word = txt.substr(n,1);
+		//-------------------------------
+		//斷字處理
+		//檢查如果是英文數字, 
+		//就抓下一個字, 一直抓到非英數才停
+		//-------------------------------
+		var k = 1;
+		var nextOne = word;
+		while( (n+k-1) < txt.length && /^[a-z0-9]+$/i.test(nextOne) ) {
+			nextOne = txt.substr(n+k,1);					
+			if( /^[a-z0-9]+$/i.test(nextOne) ) {						
+				word +=  nextOne;
+				k++;
+			} else {
+				break;
+			}
+		}
+		n += (k-1);
+		//-------------------------------
+		//斷字處理結束
+		//-------------------------------
+		var testLine = line + word;
+		//var metrics = ctx.measureText(testLine);
+		var metrics = tempLabel.setText(testLine).measureText();
+		var testWidth = metrics.width;
+		if (testWidth >= maxWidth && n > 0) {
+			//ctx.fillText(line, x+pos.x, y-pos.y+dy);
+			lines.push(line);
+			line = word;
+			dy += lineHeight
+		} 
+		else {
+			line = testLine;
+		}
+	}
+	lines.push(line);
+	//draw all lines
+	//dy = fontsize/2 - lineHeight*(lines.length-1)/2-label.getLineHeight();
+	//for(var n=0; n<lines.length; n++) {
+	//	ctx.fillText(lines[n], x+pos.x, y+dy+lineHeight*n);
+	//}
+	return lines.length;
 }
 //-------------------------------------------------
 //
@@ -1426,8 +1500,8 @@ cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
 		angel += 180;
 	}		
 	
-	//計算圓周上的座標(往內縮 5)
-	var diameter = source.getSize().width-5;
+	//計算圓周上的座標(往內縮 2)
+	var diameter = source.getSize().width-2;
 	var x = pos1.x+diameter/2*Math.cos(angel/180*Math.PI);
 	var y = pos1.y+diameter/2*Math.sin(angel/180*Math.PI);
 	line.setPosition(x, y);	//將線起點移到第一點的圓周上
