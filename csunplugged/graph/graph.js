@@ -170,7 +170,7 @@ cs.graph.init = function() {
 //
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1.2 ')
+	var labelCredit= new lime.Label().setText('v.1.3 ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -776,6 +776,32 @@ cs.graph.getColorHexString = function(rgb) {
     return '#' + rgb.toString(16);
 }
 //-------------------------------------------------
+// 
+//-------------------------------------------------
+cs.graph.updateConnectedNodesLine = function(obj) {
+	if( typeof( obj.lines ) != 'undefined' ) {
+		for( var i=0; i<obj.lines.length; i++ ) {
+			var line = obj.lines[i];
+			if( typeof(line.connect) != 'undefined' ) {							
+				if( line.connect[0] == obj ) {
+					var another = line.connect[1];
+					var isFirstPoint = true;
+				} else {
+					var another = line.connect[0];
+					var isFirstPoint = false
+				}
+				if( isFirstPoint ) {
+					line.setPosition( obj.getPosition() );
+					cs.graph.setLineSizeAndRotation( obj, line, another.getPosition(), true );
+				} else {
+					line.setPosition( another.getPosition() );
+					cs.graph.setLineSizeAndRotation( another, line, obj.getPosition(), true );
+				}
+			}
+		}
+	}
+}
+//-------------------------------------------------
 //
 //-------------------------------------------------
 cs.graph.createObject = function() {
@@ -869,30 +895,9 @@ cs.graph.createObject = function() {
 				lime.animation.actionManager.stopAll(obj.pointer);
 			}
 			
-			//長按後就移動整個，否則只拉線
+			//長按後就移動並調整相關節點的連結線，否則只拉線
 			if( longpress ) {
-				//ballC.setHidden(1);
-				if( typeof( obj.lines ) != 'undefined' ) {
-					for( var i=0; i<obj.lines.length; i++ ) {
-						var line = obj.lines[i];
-						if( typeof(line.connect) != 'undefined' ) {							
-							if( line.connect[0] == obj ) {
-								var another = line.connect[1];
-								var isFirstPoint = true;
-							} else {
-								var another = line.connect[0];
-								var isFirstPoint = false
-							}
-							if( isFirstPoint ) {
-								line.setPosition( obj.getPosition() );
-								cs.graph.setLineSizeAndRotation( obj, line, another.getPosition(), true );
-							} else {
-								line.setPosition( another.getPosition() );
-								cs.graph.setLineSizeAndRotation( another, line, obj.getPosition(), true );
-							}
-						}
-					}
-				}
+				cs.graph.updateConnectedNodesLine(obj);
 			} else {
 				var posEnd = e.position;
 				posEnd.x += posStart.x;
@@ -931,22 +936,7 @@ cs.graph.createObject = function() {
         	obj.setFill(obj.oldFill).setOpacity(1); // ball is colored back to green when interaction ends
 
         	if( longpress ) {
-				//檢查位置是否超出範圍了
-				/*
-				var x = obj.getPosition().x;
-				var y = obj.getPosition().y;
-				if( x < 0) {
-					x = 0;
-				} else if( x > cs.graph.Width ) {
-					x = cs.graph.Width;
-				}
-				if( y < 0) {
-					y = 0;
-				} else if( y > cs.graph.Height ) {
-					y = cs.graph.Height;
-				}			 
-				obj.setPosition(x, y);
-				*/
+				cs.graph.updateConnectedNodesLine(obj);
 			} else {				
 				//如果沒有 drag, 就當 click 處理
 				if( typeof( obj.connectLine ) == 'undefined' ) {
@@ -1383,10 +1373,12 @@ cs.graph.getLabelText = function(obj) {
 		var txt = inputText.getInputText().value;
 		if( txt != null) {
 			if( txt.length > 0 && txt != '' && txt.substr(-1,1) != ' ' ) {
-				txt += '';
+				//txt += ' ';
 			}
 			obj.label.setText(txt);  //.setFontColor(textSprite.label.getFontColor());
 		}						
+		
+		//cs.graph.calcWordsArray(txt);
 						
 		//慢慢調小字型, 直到總高度沒超過為止
 		var newSize = fontsize;
@@ -1425,6 +1417,64 @@ cs.graph.getLabelText = function(obj) {
 		//inputText.input.setSelectionRange(len,len);
 	}, inputText, 100);
 			
+}
+//-------------------------------------------------
+// 增強版斷字, 將中文(非英數字母者)英文分開
+//-------------------------------------------------
+cs.graph.calcWordsArray = function(text) {
+	var words = [];
+  	var len = text.length;
+  	var regexp = goog.userAgent.GECKO ? /[\s\.]+/g : /[\s-\.]+/g;
+  	var breaks = text.match(regexp);
+  	var st = 0;
+  	if (breaks)
+  	for (var i = 0; i < breaks.length; i++) {
+	  	var b = breaks[i];
+      	var ibreak = text.indexOf(b, st);
+      	var wlen = ibreak + b.length;
+	  
+	  	words.push(text.substring(st, wlen));	  
+      	st = wlen;
+  	}
+  	if (st != len) {
+      	words.push(text.substring(st, len));
+  	}
+  	
+  	var result = [];
+  	var regexp2 = /[a-z0-9\s-\.]+/gi;
+  	for(var w = 0; w<words.length; w++) {
+		var en_text = words[w];
+	  	var en_len = en_text.length;
+	  	var en_words = en_text.match(regexp2);
+	  	var en_st = 0;
+  		var breaks = en_text.match(regexp);
+  		if(breaks)
+  		var b = breaks[0];
+	  	if( en_words )
+	  	for(var j=0; j< en_words.length; j++) {
+	    	var en = en_words[j];
+			var enIndex = en_text.indexOf(en, en_st);
+			var en_wlen = enIndex + en.length;
+			if( enIndex > 0 ) {
+				if( en == b ) {
+					result.push(en_text.substring(en_st, en_wlen));
+				} else {
+					result.push(en_text.substring(en_st, enIndex));
+				}
+			}
+			if( en != b ) {
+				result.push(en);
+			}
+			en_st = en_wlen;
+	  	}	  	  
+	  	if (en_st != en_len) {
+			console.log("2 '" + en_words + ':'+en_text.substring(en_st, en_len)+"'");
+			result.push(en_text.substring(en_st, en_len));
+      	}  	
+  	} 
+  	console.log(text);
+  	console.log(words);
+  	console.log(result);
 }
 //-------------------------------------------------
 //
