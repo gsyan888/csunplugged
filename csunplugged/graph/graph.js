@@ -27,8 +27,6 @@ goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
 
-goog.require('lime.Button');
-
 goog.require('game.Util');
 goog.require('game.Input');
 goog.require('game.Button');
@@ -126,7 +124,7 @@ cs.graph.start = function(){
 
 }
 //-------------------------------------------------
-//
+// load config from external script files
 //-------------------------------------------------
 cs.graph.init = function() {	
 	game.Util.loadSettingFromExternalScript(cs.graph.config_file, function() {
@@ -167,10 +165,10 @@ cs.graph.init = function() {
 	});
 };
 //-------------------------------------------------
-//
+// create tool buttons
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1.3 ')
+	var labelCredit= new lime.Label().setText('v.1.4 ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -314,21 +312,16 @@ cs.graph.letsRockIt = function() {
 	});
 	
 	//load JSON File
-	loadIcon = new lime.Sprite()
+	loadSprite = new lime.Sprite()
 						.setFill(cs.graph.loadIcon)
 						.setSize(64,64)
 						.setStroke(2, '#2E64FE')
-						//.setHidden(1)
-						//.setOpacity(alphaValueDisabled)
-						.setPosition(0, 0);
-    loadSprite = new lime.Button(loadIcon).setHidden(1)
-								.setPosition(52+225, cs.graph.Height-64);
-	loadSprite.appendChild(loadIcon);
+						.setHidden(1)
+						.setPosition(52+225, cs.graph.Height-64);
 	buttonLayer.appendChild(loadSprite);
 	
 	//loadIcon button 的滑鼠事件
-	//goog.events.listen(loadButton,['mousedown','touchstart'],function(e){		
-	goog.events.listen(loadSprite,['click'],function(e){		
+	goog.events.listen(loadSprite, ['mouseup', 'touchend'],function(e){		
 		if( loadSprite.getHidden() == 0 ) {
 			//if( /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
 				//'系統訊息', '抱歉！Android / iOS 暫不支援匯入舊檔的功能'
@@ -380,7 +373,7 @@ cs.graph.letsRockIt = function() {
 	cs.graph.clickEnabled = true;
 }
 //-------------------------------------------------
-//
+// hide export,save and load buttons
 //-------------------------------------------------
 cs.graph.closeDownloadMenu = function() {
 	saveSprite.setHidden(1);
@@ -389,7 +382,7 @@ cs.graph.closeDownloadMenu = function() {
 	downloadSprite.enable = false;				
 }
 //-------------------------------------------------
-//
+// show message on top layer
 //-------------------------------------------------
 cs.graph.showMessage = function(caption, description, delayTime) {
 	cs.graph.clearAllChildren(topLayer);
@@ -592,6 +585,9 @@ cs.graph.exprotAllParts = function(ctx) {
 		ctx.restore();
 	}
 }
+//-------------------------------------------------
+// convert (r,g,b,a) to hex string => #rrggbb
+//-------------------------------------------------
 function rgbaToHex(rgba) {
 	var color = rgba.split(',');
 	var r = parseInt(color[0]);
@@ -689,7 +685,7 @@ cs.graph.exportToJsonFormat = function() {
 }
 
 //-------------------------------------------------
-//
+// import JSON string , create nodes and lines
 //-------------------------------------------------
 cs.graph.importFromJsonString = function(jsonString) {
 	cs.graph.clearAllChildren(topLayer);
@@ -764,19 +760,9 @@ cs.graph.importFromJsonString = function(jsonString) {
 		cs.graph.showMessage(cfg_messageImportFailureCaption, cfg_messageImportFailureDescription);
 	}
 }
+
 //-------------------------------------------------
-//
-//-------------------------------------------------
-cs.graph.getColorHexString = function(rgb) {
-	var red = parseInt(rgb[0]);
-    var green = parseInt(rgb[1]);
-    var blue = parseInt(rgb[2]);
-    
-    var rgb = blue | (green << 8) | (red << 16);
-    return '#' + rgb.toString(16);
-}
-//-------------------------------------------------
-// 
+// update connected lines position and rotation
 //-------------------------------------------------
 cs.graph.updateConnectedNodesLine = function(obj) {
 	if( typeof( obj.lines ) != 'undefined' ) {
@@ -802,7 +788,7 @@ cs.graph.updateConnectedNodesLine = function(obj) {
 	}
 }
 //-------------------------------------------------
-//
+// create new node object
 //-------------------------------------------------
 cs.graph.createObject = function() {
 	var size = cs.graph.defaultNodeObjectSize;
@@ -1224,7 +1210,7 @@ cs.graph.popupMenu = function(obj) {
 
 }
 //-------------------------------------------------
-//
+// remove one object and all children
 //-------------------------------------------------
 cs.graph.removeThis = function(obj) {
 	var p = obj.getParent();
@@ -1234,7 +1220,7 @@ cs.graph.removeThis = function(obj) {
 	cs.graph.enableClickTimer(100);
 }
 //-------------------------------------------------
-//
+// 待候一下下再讓其它物件可以被按, 以免誤觸
 //-------------------------------------------------
 cs.graph.enableClickTimer = function(tNum) {
 	if( typeof(tNum) == 'undefined' ) {
@@ -1245,7 +1231,7 @@ cs.graph.enableClickTimer = function(tNum) {
 	}, topLayer, tNum);
 }
 //-------------------------------------------------
-//
+// create or edit label of node or line
 //-------------------------------------------------
 cs.graph.getLabelText = function(obj) {
 	cs.graph.clearAllChildren(topLayer);
@@ -1536,7 +1522,7 @@ cs.graph.getLabelLinesNumber = function(label) {
 	return lines.length;
 }
 //-------------------------------------------------
-//
+// update position or rotation of line
 //-------------------------------------------------
 cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
 	var pos1 = source.getPosition();	//第一個節點的座標
@@ -1595,7 +1581,7 @@ cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
 	line.setHidden(0);
 }
 //-------------------------------------------------
-//
+// delete line or node object and connected lines
 //-------------------------------------------------
 cs.graph.deleteObject = function(obj, isLineSprite) {
 	if( typeof(isLineSprite) == 'undefined' ) {
