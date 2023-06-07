@@ -13,6 +13,7 @@ goog.provide('cs.graph');
 //	2018.02.28 Android/iOS import function
 //	2023.06.07 mirror the label of line by the rotation of line
 //			   popupMenu add resize options to change size.
+//			   line popupMenu press arrow can set arrow or change the direction
 //======================================================
 
 //get requirements
@@ -187,7 +188,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = '2023.06.07 updated';	
+	labelCredit.getDeepestDomElement().title = '2023.06.08 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -1034,8 +1035,9 @@ cs.graph.popupMenu = function(obj) {
 								.setPosition(0, 0);
 	popupMenu.appendChild(bg);
 	
-	//非直線物件的設定，就加上變大、變小的按鈕
-	if( !(typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite) ) {
+	
+	if(!(typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite )) {
+		//非直線物件的設定，就加上變大、變小的按鈕
 		// resize buttons ++ (2023.06.07 add)
 		var x = radius*Math.cos(theata);
 		var y = radius*Math.sin(theata);
@@ -1203,9 +1205,13 @@ cs.graph.popupMenu = function(obj) {
 							.setPosition(x, y);
 		popupMenu.appendChild(bt);
 		goog.events.listen(bt,['mousedown','touchstart'],function(e){
-			obj.shapeType = 'arraow';
-			//cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1].getPosition(), true );
-			cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1], true );
+			if(typeof(obj.shapeType)!='undefined' && obj.shapeType!=null && obj.shapeType == 'arrow') {
+				//原本就是箭頭的，換箭頭的方向(2023.06.08 add)
+				cs.graph.swapLineEndpoints(obj);
+			} else {
+				obj.shapeType = 'arraow';
+				cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1], true );
+			}
 			//close popup menu
 			cs.graph.removeThis(this);
 		}, false, bt);	
@@ -1684,6 +1690,17 @@ cs.graph.setLineSizeAndRotation = function(source, line, targetOrPos2, isRelease
 	line.setHidden(0);
 }
 //-------------------------------------------------
+// swap the endpoint objects of a line
+//-------------------------------------------------
+cs.graph.swapLineEndpoints = function(obj) {
+	if(typeof(obj.connect)!='undefined' && obj.connect!=null && obj.connect.length>1) {
+		var firstPoint =obj.connect[0];
+		obj.connect[0] = obj.connect[1];
+		obj.connect[1] = firstPoint;
+		cs.graph.updateConnectedNodesLine(firstPoint);
+	}
+}
+//-------------------------------------------------
 // delete line or node object and connected lines
 //-------------------------------------------------
 cs.graph.deleteObject = function(obj, isLineSprite) {
@@ -1693,12 +1710,14 @@ cs.graph.deleteObject = function(obj, isLineSprite) {
 	if( isLineSprite ) {
 		for( var i=0; i<obj.connect.length; i++ ) {
 			var another = obj.connect[i];
+			/*
 			for( var j=0; j<another.lines.length; j++ ) {
 				if( another.lines[j] == line ) {
 					another.lines.splice(j, 1);
 					break;
 				}
 			}
+			*/
 			cs.graph.clearAllChildren(obj);
 			lineLayer.removeChild(obj);
 		}
