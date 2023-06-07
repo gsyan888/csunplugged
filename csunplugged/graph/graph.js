@@ -178,7 +178,7 @@ cs.graph.init = function() {
 // create tool buttons
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1.4a ')
+	var labelCredit= new lime.Label().setText('v.1.4b ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -188,7 +188,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = '2023.06.08 updated';	
+	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 04:44:00 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -866,13 +866,17 @@ cs.graph.createObject = function() {
     	e.preventDefault();
     	e.stopPropagation();
 		
-		//偵測是否為長按
+		
+		//偵測是否為長按		
 		var longpress = false;
 		var longpressDetect = true;
-    	pressTimer = window.setTimeout( function() {
+		var movingMin = 4; //移動超過  4 才算拖曳
+		var posTouchStart = e.position;
+    	var pressTimer = setTimeout( function() {
     		longpress = true;
     		e.startDrag(false, null, obj);
     	}, cs.graph.defaultLongpressTime);
+		
         //animate
         obj.pointer.runAction(new lime.animation.Spawn(
             new lime.animation.FadeTo(.5).setDuration(.2),
@@ -883,56 +887,68 @@ cs.graph.createObject = function() {
 		
     	//處理拖曳時的移動    	
 		e.swallow(['mousemove', 'touchmove'], function(e) {
-			if( longpressDetect ) {				
-				//e.startDrag(false, null, obj.pointer);
-				longpressDetect = false;
-				clearTimeout(pressTimer);
-				lime.animation.actionManager.stopAll(obj.pointer);
-			}
-			
-			//長按後就移動並調整相關節點的連結線，否則只拉線
-			if( longpress ) {
-				cs.graph.updateConnectedNodesLine(obj);
-			} else {
-				var posEnd = e.position;
-				posEnd.x += posStart.x;
-				posEnd.y += posStart.y;		
-				
-				//新增一條線
-				if( typeof( obj.connectLine ) == 'undefined' ) {
-					//obj.connectLine = new lime.Sprite().setSize(1,1)
-					obj.connectLine = new lime.Polygon()
-    										//.setAnchorPoint(0,0)
-    										//.setFill(colorPicker.getStroke().getColor())
-											.setFill(cs.graph.lineDefaultColor)
-											//.setStroke(10, '#4AAADE')
-											//.setPosition(obj.getPosition());
-											;
-					obj.connectLine.isLineSprite = true;
-    				lineLayer.appendChild(obj.connectLine);
-    			} else {
-    				obj.connectLine.setPosition(obj.getPosition());
-    			}
-				//檢查已 mouseup 卻還有 mousemove 繼續發生
-				if( mouseStatus != 'up' ) {
-					obj.pointer.setPosition(posEnd).setScale(1).setOpacity(1).setHidden(0);
-					cs.graph.setLineSizeAndRotation(obj, obj.connectLine, e.position);
+			var posEnd = e.position;
+			var deltaX = posEnd.x - posTouchStart.x;
+			var deltaY = posEnd.y - posTouchStart.y;
+			if(Math.sqrt((deltaX * deltaX) + (deltaY * deltaY))>movingMin) {
+				if( longpressDetect ) {				
+					//e.startDrag(false, null, obj.pointer);
+					longpressDetect = false;
+					movingMin = 1; //unlock the offset checking
+					if(typeof(pressTimer)!='undefined' && pressTimer!=null) {
+						clearTimeout(pressTimer);
+					}
+					try {
+						lime.animation.actionManager.stopAll(obj.pointer);
+					} catch(e) { console.log(e) };				
 				}
-			}
-						
+				
+				//長按後就移動並調整相關節點的連結線，否則只拉線
+				if( longpress ) {
+					cs.graph.updateConnectedNodesLine(obj);
+				} else {
+					posEnd.x += posStart.x;
+					posEnd.y += posStart.y;		
+					
+					//新增一條線
+					if( typeof( obj.connectLine ) == 'undefined' ) {
+						//obj.connectLine = new lime.Sprite().setSize(1,1)
+						obj.connectLine = new lime.Polygon()
+												//.setAnchorPoint(0,0)
+												//.setFill(colorPicker.getStroke().getColor())
+												.setFill(cs.graph.lineDefaultColor)
+												//.setStroke(10, '#4AAADE')
+												//.setPosition(obj.getPosition());
+												;
+						obj.connectLine.isLineSprite = true;
+						lineLayer.appendChild(obj.connectLine);
+					} else {
+						obj.connectLine.setPosition(obj.getPosition());
+					}
+					//檢查已 mouseup 卻還有 mousemove 繼續發生
+					if( mouseStatus != 'up' ) {
+						obj.pointer.setPosition(posEnd).setScale(1).setOpacity(1).setHidden(0);
+						cs.graph.setLineSizeAndRotation(obj, obj.connectLine, e.position);
+					}
+				}
+			}		
 		});
     	e.swallow(['mouseup','touchend','touchcancel'],function(e){
 			cs.graph.clickEnabled = true;
 			mouseStatus = 'up'; //用來檢查已 mouseup 卻還有 mousemove 繼續發生
     		obj.pointer.setHidden(1);
-			clearTimeout(pressTimer);
-    		lime.animation.actionManager.stopAll(obj.pointer);			
+			if(typeof(pressTimer)!='undefined' && pressTimer!=null) {
+				clearTimeout(pressTimer);
+			}
+			try {
+				lime.animation.actionManager.stopAll(obj.pointer);			
+			} catch(e) { console.log(e) };
 			
         	obj.setFill(obj.oldFill).setOpacity(1); // ball is colored back to green when interaction ends
 
         	if( longpress ) {
 				cs.graph.updateConnectedNodesLine(obj);
-			} else {				
+			} else {
 				//如果沒有 drag, 就當 click 處理
 				if( typeof( obj.connectLine ) == 'undefined' ) {
 					//跳出功能選單
