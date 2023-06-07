@@ -11,6 +11,8 @@ goog.provide('cs.graph');
 //	2018.02.27 canvas text wordwrap (export to PNG),
 //			   add new options: cfg_nodeObjectDefaultColor, cfg_lineDefaultColor 
 //	2018.02.28 Android/iOS import function
+//	2023.06.07 mirror the label of line by the rotation of line
+//			   popupMenu add resize options to change size.
 //======================================================
 
 //get requirements
@@ -26,6 +28,8 @@ goog.require('lime.animation.Spawn');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
+
+goog.require('lime.Button');
 
 goog.require('game.Util');
 goog.require('game.Input');
@@ -112,7 +116,12 @@ cs.graph.start = function(){
 	scene.appendChild(buttonLayer);
 	scene.appendChild(topLayer);
 
+	//避免整個畫面的捲動(2018.04.01加入)
+	document.addEventListener('touchstart', function(e){return;}, {passive: false });
+	document.addEventListener('touchmove', function(e){e.preventDefault();}, {passive: false });
+	setTimeout(function() { window.scrollTo(0, 1) }, 100);
 
+	
 	director.setDisplayFPS(false);	//關掉左上角的 FPS 資訊
 	director.makeMobileWebAppCapable();
 
@@ -168,7 +177,7 @@ cs.graph.init = function() {
 // create tool buttons
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1.4 ')
+	var labelCredit= new lime.Label().setText('v.1.4a ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -178,7 +187,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = '2018.02.28 updated';	
+	labelCredit.getDeepestDomElement().title = '2023.06.07 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -387,11 +396,7 @@ cs.graph.closeDownloadMenu = function() {
 cs.graph.showMessage = function(caption, description, delayTime) {
 	cs.graph.clearAllChildren(topLayer);
 	//設定字型
-	if( (/(ipod|iphone|ipad|Macintosh)/i).test(navigator.userAgent) ) {
-		var font = 'BiauKai';
-	} else {
-		var font = '標楷體';
-	}
+	var font = "'標楷體' , 'BiauKai'";
 	
 	var width = cs.graph.Width*.9;
 	var height = 160;
@@ -751,7 +756,8 @@ cs.graph.importFromJsonString = function(jsonString) {
 			}, false, polygon);			
 			lineLayer.appendChild(polygon);
 			//重繪連接線
-			cs.graph.setLineSizeAndRotation(polygon.connect[0], polygon, polygon.connect[1].getPosition(), true);			
+			//cs.graph.setLineSizeAndRotation(polygon.connect[0], polygon, polygon.connect[1].getPosition(), true);
+			cs.graph.setLineSizeAndRotation(polygon.connect[0], polygon, polygon.connect[1], true);
 		}
 		//'載入檔案', '已將載入的檔案重建完成'
 		cs.graph.showMessage(cfg_messageImportOkCaption, cfg_messageImportOkDescription, 5).setPosition(cs.graph.Width/2, cs.graph.Height/2);
@@ -778,10 +784,12 @@ cs.graph.updateConnectedNodesLine = function(obj) {
 				}
 				if( isFirstPoint ) {
 					line.setPosition( obj.getPosition() );
-					cs.graph.setLineSizeAndRotation( obj, line, another.getPosition(), true );
+					//cs.graph.setLineSizeAndRotation( obj, line, another.getPosition(), true );
+					cs.graph.setLineSizeAndRotation( obj, line, another, true );
 				} else {
 					line.setPosition( another.getPosition() );
-					cs.graph.setLineSizeAndRotation( another, line, obj.getPosition(), true );
+					//cs.graph.setLineSizeAndRotation( another, line, obj.getPosition(), true );
+					cs.graph.setLineSizeAndRotation( another, line, obj, true );
 				}
 			}
 		}
@@ -967,7 +975,8 @@ cs.graph.createObject = function() {
 								lineChild = null;
 							}
 						}
-						cs.graph.setLineSizeAndRotation(obj, obj.connectLine, another.getPosition(), true );
+						//cs.graph.setLineSizeAndRotation(obj, obj.connectLine, another.getPosition(), true );
+						cs.graph.setLineSizeAndRotation(obj, obj.connectLine, another, true );
 						obj.connectLine.connect = [obj, another];
 						if( lineChild == null ) {
 							if( typeof( obj.lines ) == 'undefined' ) {
@@ -1013,7 +1022,7 @@ cs.graph.popupMenu = function(obj) {
 
 	var size = cs.graph.defaultNodeObjectSize/2+5;
 	var radius = cs.graph.defaultNodeObjectSize/2+size*1.2;
-	var btTotal = 10;
+	var btTotal = (typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite?10:12);
 	var dA = Math.PI*2/btTotal;
 	var theata = 1*dA-Math.PI*0.5;
 		
@@ -1025,6 +1034,68 @@ cs.graph.popupMenu = function(obj) {
 								.setPosition(0, 0);
 	popupMenu.appendChild(bg);
 	
+	//非直線物件的設定，就加上變大、變小的按鈕
+	if( !(typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite) ) {
+		// resize buttons ++ (2023.06.07 add)
+		var x = radius*Math.cos(theata);
+		var y = radius*Math.sin(theata);
+		var bt = new lime.Circle().setSize(size, size)
+								.setStroke(1)
+								//.setFill(cs.graph.colors[i])
+								.setPosition(x, y);
+		popupMenu.appendChild(bt);
+		var label = new lime.Label().setText('+').setFontSize(size)
+									.setFontColor('#0000ff')
+									.setFontWeight(700);
+		bt.appendChild(label);
+		theata += dA;
+		goog.events.listen(bt,['mousedown','touchstart'],function(e){
+			//var scale = obj.getScale().x;
+			//scale += 0.1;
+			//obj.setScale(scale);
+			var oldSize = obj.getSize().clone();
+			obj.setSize(oldSize.width*1.1, oldSize.height*1.1);
+			if(typeof(obj.inner)!='undefined' && obj.inner!=null) {
+				//更新內圈的大小
+				obj.inner.setSize(oldSize.width*1.1*0.85, oldSize.height*1.1*0.85);
+			}
+			cs.graph.updateConnectedNodesLine(obj); //更新連接線
+		}, false, bt);
+		// resize buttons -- (2023.06.07 add)
+		var x = radius*Math.cos(theata);
+		var y = radius*Math.sin(theata);
+		var bt = new lime.Circle().setSize(size, size)
+								.setStroke(1)
+								//.setFill(cs.graph.colors[i])
+								.setPosition(x, y);
+		popupMenu.appendChild(bt);
+		var label = new lime.Label().setText('-').setFontSize(size*1.25)
+									.setFontColor('#ff0000')
+									.setFontWeight(700)
+									.setPosition(0, -5);
+		bt.appendChild(label);
+		theata += dA;
+		goog.events.listen(bt,['mousedown','touchstart'],function(e){
+			//var scale = obj.getScale().x;
+			//scale -= 0.1;
+			//obj.setScale(scale<=0?0.1:scale);
+			var oldSize = obj.getSize().clone();
+			oldSize.width *= 0.9;
+			oldSize.height *= 0.9;
+			if(oldSize.width<24) {
+				oldSize.width = 24;
+			}
+			if(oldSize.height<24) {
+				oldSize.height = 24;
+			}
+			obj.setSize(oldSize);
+			if(typeof(obj.inner)!='undefined' && obj.inner!=null) {
+				//更新內圈的大小
+				obj.inner.setSize(oldSize.width*0.85, oldSize.height*0.85);
+			}			
+			cs.graph.updateConnectedNodesLine(obj); //更新連接線
+		}, false, bt);
+	}
 	// color picker
 	var cTotal = ( cs.graph.colors.length < 7 ? cs.graph.colors.length : 7);
 	for( var i=0; i<cTotal; i++) {
@@ -1050,7 +1121,7 @@ cs.graph.popupMenu = function(obj) {
 	y = radius*Math.sin(theata);
 	var bt = new lime.Sprite()
 						.setFill(cs.graph.penIcon)
-						.setSize(size, size)
+						.setSize(size*0.85, size*0.85)
 						.setPosition(x, y);
 	popupMenu.appendChild(bt);
 	theata += dA;
@@ -1067,7 +1138,7 @@ cs.graph.popupMenu = function(obj) {
 	y = radius*Math.sin(theata);
 	var bt = new lime.Sprite()
 						.setFill(cs.graph.eraserIcon)
-						.setSize(size, size)
+						.setSize(size*0.85, size*0.85)
 						.setPosition(x, y);
 	popupMenu.appendChild(bt);
 	theata += dA;
@@ -1100,7 +1171,7 @@ cs.graph.popupMenu = function(obj) {
 
 	// shape type
 	var typeBg = new lime.RoundedRect().setRadius(20)
-										.setFill('#F6CECE')
+										.setFill('#F6CECEbf')
 										.setSize(cs.graph.defaultNodeObjectSize*1.5, cs.graph.defaultNodeObjectSize)
 										//.setStroke(1)
 										.setPosition(0,0);
@@ -1117,7 +1188,8 @@ cs.graph.popupMenu = function(obj) {
 		popupMenu.appendChild(bt);
 		goog.events.listen(bt,['mousedown','touchstart'],function(e){
 			obj.shapeType = 'line';
-			cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1].getPosition(), true );
+			//cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1].getPosition(), true );
+			cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1], true );
 			//close popup menu
 			cs.graph.removeThis(this);
 		}, false, bt);
@@ -1132,7 +1204,8 @@ cs.graph.popupMenu = function(obj) {
 		popupMenu.appendChild(bt);
 		goog.events.listen(bt,['mousedown','touchstart'],function(e){
 			obj.shapeType = 'arraow';
-			cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1].getPosition(), true );
+			//cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1].getPosition(), true );
+			cs.graph.setLineSizeAndRotation( obj.connect[0], obj, obj.connect[1], true );
 			//close popup menu
 			cs.graph.removeThis(this);
 		}, false, bt);	
@@ -1387,7 +1460,15 @@ cs.graph.getLabelText = function(obj) {
 		var textHeight = (newSize+obj.label.getLineHeight())*lineTotal-obj.label.getLineHeight();
 		//如果是連線就調整水平置中，否則調整垂直置中
 		if( typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite ) {
-			obj.label.setPosition(obj.getSize().width/2, -5-obj.label.getFontSize()/2);
+			var a = obj.getRotation();
+			if(a>90 && a<270) {
+				//線的旋轉角如果是 90~270 度內時，將字作鏡像，以免變顛倒字, 
+				//位置亦要微一下, 以免靠線太近
+				//2023.06.07 bug fix
+				obj.label.setScale(-1).setPosition(obj.getSize().width/2, -15-obj.label.getFontSize()/2);
+			} else {
+				obj.label.setScale(1).setPosition(obj.getSize().width/2, -5-obj.label.getFontSize()/2);
+			}
 		} else {
 			obj.label.setPosition(0,(labelsize-textHeight)/2);
 		}
@@ -1524,8 +1605,14 @@ cs.graph.getLabelLinesNumber = function(label) {
 //-------------------------------------------------
 // update position or rotation of line
 //-------------------------------------------------
-cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
+cs.graph.setLineSizeAndRotation = function(source, line, targetOrPos2, isRelease) {
 	var pos1 = source.getPosition();	//第一個節點的座標
+	var pos2; //第二個節點的座標
+	if(typeof(targetOrPos2.getPosition)=='function') {
+		pos2 = targetOrPos2.getPosition();
+	} else {
+		pos2 = targetOrPos2;
+	}
 	//計算距離(斜邊長)
 	var xOffset = pos2.x - pos1.x;		
 	var yOffset = pos2.y - pos1.y;
@@ -1543,7 +1630,13 @@ cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
 	line.setPosition(x, y);	//將線起點移到第一點的圓周上
 	//將線終點移到第二點的圓周上
 	if( typeof(isRelease) != 'undefined' && isRelease ) {
-		width -= diameter;	//滑鼠放開時少一個直徑
+		if(typeof(targetOrPos2.getSize)=='function') {
+			//滑鼠放開時少第一點的半徑 and 第二點的半徑 (2023.06.07 add)
+			width -= diameter/2+(targetOrPos2.getSize().width-2)/2;
+		} else {
+			//第二點未提供元件大小者, 滑鼠放開時少一個直徑
+			width -= diameter;	
+		}
 	} else {
 		width -= diameter/2;	//滑鼠未放開前少一個半徑就好
 	}
@@ -1576,7 +1669,17 @@ cs.graph.setLineSizeAndRotation = function(source, line, pos2, isRelease) {
 	line.setRotation(360-angel);
 		
 	if( typeof(line.label) != 'undefined' ) {
-		line.label.setPosition(width/2, -5-line.label.getFontSize()/2);	//將字置中
+		var a = line.getRotation();
+		if(a>90 && a<270) {
+			//線的旋轉角如果是 90~270 度內時，將字作鏡像，以免變顛倒字, 
+			//位置亦要微一下, 以免靠線太近
+			//2023.06.07 bug fix
+			line.label.setScale(-1)
+						.setPosition(width/2, -15-line.label.getFontSize()/2);	//將字置中
+		} else {
+			line.label.setScale(1)
+						.setPosition(width/2, -5-line.label.getFontSize()/2);	//將字置中
+		}
 	}
 	line.setHidden(0);
 }
