@@ -14,6 +14,7 @@ goog.provide('cs.graph');
 //	2023.06.07 mirror the label of line by the rotation of line
 //			   popupMenu add resize options to change size.
 //			   line popupMenu press arrow can set arrow or change the direction
+//	2023.06.08 export/import include nodes size
 //======================================================
 
 //get requirements
@@ -188,7 +189,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 04:44:00 updated';	
+	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 06:37:00 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -583,7 +584,14 @@ cs.graph.exprotAllParts = function(ctx) {
 			var pos = obj.label.getPosition();
 			var fontsize = obj.label.getFontSize();
 			var fontFamily = obj.label.getFontFamily();
+			var scale = obj.label.getScale();
 			ctx.textAlign = "center";
+			if(scale.x==-1 && scale.y==-1) {
+				//flip the text (degree 90~270)
+				ctx.scale(-1, -1);
+				//pos.x = obj.getPosition().x/-2+pos.x/2;
+				pos.x *= -1;
+			}			
 			ctx.font = fontsize+"px "+fontFamily;
 			ctx.fillStyle = obj.label.getFontColor();
 			ctx.fillText(txt, pos.x, pos.y+(fontsize+obj.label.getLineHeight())/4);  //+(obj.label.getLineHeight()-fontsize)/2);
@@ -619,6 +627,7 @@ cs.graph.exportToJsonFormat = function() {
 		//node.color = 'rgba('+child.getFill().getRgba().toString()+')';
 		node['color'] = rgbaToHex(child.getFill().getRgba().toString());
 		node['pos'] = child.getPosition();
+		node['size'] = child.getSize(); //2023.05.08 add
 		node['innerHidden'] = child.inner.getHidden();
 		node['lines'] = [];	//記錄 lines 的 index ,所以最後分析填入
 		if( typeof(child.label) != 'undefined' ) {
@@ -710,9 +719,12 @@ cs.graph.importFromJsonString = function(jsonString) {
 		//reconstruct all nodes and line from JSON file
 		for(var i=0; i<data['nodes'].length; i++) {
 			var node = data['nodes'][i];
-			var obj = cs.graph.createObject()
+			var obj = cs.graph.createObject(typeof(node['size'])!='undefined' && node['size']!=null?node['size']:null)
 								.setFill(node['color'])
 								.setPosition(node['pos']);
+			//if(typeof(node['size'])!='undefined' && node['size']!=null) {
+			//	obj.setSize(node['size']);	//2023.06.08 add, 改放到 cs.graph.createObject 的參數中
+			//}
 			obj.inner.setHidden(node['innerHidden']);
 			obj.lines = [];
 			if( typeof(node['label']) != 'undefined' ) {				
@@ -799,8 +811,12 @@ cs.graph.updateConnectedNodesLine = function(obj) {
 //-------------------------------------------------
 // create new node object
 //-------------------------------------------------
-cs.graph.createObject = function() {
-	var size = cs.graph.defaultNodeObjectSize;
+cs.graph.createObject = function(size) {
+	if(typeof(size)=='undefined' || size==null) {
+		size = cs.graph.defaultNodeObjectSize;
+	} else {
+		size = size.width;	//先假設為長寬一樣 (2023.06.08)
+	}
 	var x = cs.graph.Width/2;
 	var y = cs.graph.Height-size*1.5
     var obj = new lime.Circle().setSize(size, size)
@@ -849,8 +865,9 @@ cs.graph.createObject = function() {
 		var posStart = obj.getPosition();
 		
 		//拖曳的指標
+		var pointerSize = cs.graph.defaultNodeObjectSize/5;
 		if( typeof(obj.pointer) == 'undefined' ) {
-			obj.pointer = new lime.Circle().setSize(size/5, size/5)
+			obj.pointer = new lime.Circle().setSize(pointerSize, pointerSize)
 											.setOpacity(0.7)
 											.setFill('#00ff00');
 			pointerLayer.appendChild(obj.pointer);
