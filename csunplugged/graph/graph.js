@@ -189,7 +189,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 06:37:00 updated';	
+	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 12:38:00 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -891,6 +891,7 @@ cs.graph.createObject = function(size) {
 		var posTouchStart = e.position;
     	var pressTimer = setTimeout( function() {
     		longpress = true;
+			movingMin = 1; //unlock the offset checking
     		e.startDrag(false, null, obj);
     	}, cs.graph.defaultLongpressTime);
 		
@@ -1285,7 +1286,8 @@ cs.graph.popupMenu = function(obj) {
 	//調整 Popup Menu 的位置
 	var pos = obj.getPosition();
 	var x = pos.x;
-	var y = pos.y-20;
+	//var y = pos.y-20;
+	var y = pos.y;
 	//如果是連線就調至的中間
 	if( typeof(obj.isLineSprite) != 'undefined' && obj.isLineSprite ) {
 		var pos1 = obj.connect[0].getPosition();
