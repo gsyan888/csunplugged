@@ -179,7 +179,7 @@ cs.graph.init = function() {
 // create tool buttons
 //-------------------------------------------------
 cs.graph.letsRockIt = function() {
-	var labelCredit= new lime.Label().setText('v.1.4b ')
+	var labelCredit= new lime.Label().setText('v.1.4c ')
 									.setSize(50, 12)
 									.setAlign('right')
 									.setFontColor('#819FF7')
@@ -189,7 +189,7 @@ cs.graph.letsRockIt = function() {
 									//.setPosition(52, cs.graph.Height-9);
 									.setPosition(cs.graph.Width-25, cs.graph.Height-10);
 	buttonLayer.appendChild(labelCredit);	
-	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.08 12:38:00 updated';	
+	labelCredit.getDeepestDomElement().title = 'by gsyan 2023.06.09 01:18:00 updated';	
 	goog.events.listen(labelCredit, ['mousedown','touchstart'], function() {
         goog.global['location']['href'] = 'https://gsyan888.github.io/csunplugged/';
     });
@@ -589,12 +589,16 @@ cs.graph.exprotAllParts = function(ctx) {
 			if(scale.x==-1 && scale.y==-1) {
 				//flip the text (degree 90~270)
 				ctx.scale(-1, -1);
-				//pos.x = obj.getPosition().x/-2+pos.x/2;
 				pos.x *= -1;
-			}			
+				pos.y *= -1;
+			} else {
+				//normal
+				pos.y = pos.y+(fontsize+obj.label.getLineHeight())/4;
+			}
 			ctx.font = fontsize+"px "+fontFamily;
 			ctx.fillStyle = obj.label.getFontColor();
-			ctx.fillText(txt, pos.x, pos.y+(fontsize+obj.label.getLineHeight())/4);  //+(obj.label.getLineHeight()-fontsize)/2);
+			//ctx.fillText(txt, pos.x, pos.y+(fontsize+obj.label.getLineHeight())/4);  //+(obj.label.getLineHeight()-fontsize)/2);
+			ctx.fillText(txt, pos.x, pos.y);
 		}		
 		ctx.restore();
 	}
@@ -1506,7 +1510,8 @@ cs.graph.getLabelText = function(obj) {
 				//線的旋轉角如果是 90~270 度內時，將字作鏡像，以免變顛倒字, 
 				//位置亦要微一下, 以免靠線太近
 				//2023.06.07 bug fix
-				obj.label.setScale(-1).setPosition(obj.getSize().width/2, -15-obj.label.getFontSize()/2);
+				//obj.label.setScale(-1).setPosition(obj.getSize().width/2, -15-obj.label.getFontSize()/2);
+				obj.label.setScale(-1).setPosition(obj.getSize().width/2, 5+obj.label.getFontSize()/2);
 			} else {
 				obj.label.setScale(1).setPosition(obj.getSize().width/2, -5-obj.label.getFontSize()/2);
 			}
@@ -1716,7 +1721,8 @@ cs.graph.setLineSizeAndRotation = function(source, line, targetOrPos2, isRelease
 			//位置亦要微一下, 以免靠線太近
 			//2023.06.07 bug fix
 			line.label.setScale(-1)
-						.setPosition(width/2, -15-line.label.getFontSize()/2);	//將字置中
+						//.setPosition(width/2, -15-line.label.getFontSize()/2);	//將字置中
+						.setPosition(width/2, 5+line.label.getFontSize()/2);	//將字置中
 		} else {
 			line.label.setScale(1)
 						.setPosition(width/2, -5-line.label.getFontSize()/2);	//將字置中
